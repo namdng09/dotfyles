@@ -1,0 +1,44 @@
+devices:
+# the default speed for mouse movement and scrolling
+baseMouseSpeed: 660.0
+baseScrollSpeed: 20.0
+
+# the rest of the config defines the layers with their bindings
+layers:
+  # the first layer is active at start
+  - name: initial
+    bindings:
+      rightshift: layer mouse
+
+  - name: mouse
+    # when true, keys that are not mapped keep their original meaning
+    passThrough: false
+    enterCommand: "notify-send -i dialog-information '🖱️ Mouseless' 'Mouse ON 🟩🟩🟩'"
+    exitCommand: "notify-send -i dialog-information '🖱️ Mouseless' 'Mouse OFF 🟥🟥🟥'"
+    bindings:
+      # quit layer 
+      q: layer initial
+      c: reload-config
+
+      h: move -1  0
+      j: move  0  1
+      k: move  0 -1
+      l: move  1  0
+
+      #vertically scroll
+      p: scroll up
+      n: scroll down
+
+      # horizontal scroll
+      u: scroll left
+      o: scroll right
+
+      a: speed 8.0
+      s: speed 3.0
+      d: speed 0.4
+      f: speed 0.2
+
+      w: button left
+      e: button middle
+      r: button right
+      i: multi button left ; layer initial
