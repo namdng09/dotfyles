@@ -73,7 +73,7 @@
 (deflayer misc
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    S-M-left S-M-down S-M-up S-M-right _    _    _    _
-  _    _    _    _    _    _    C-bspc bspc esc _   _    _    _
+  _    _    _    _    _    _    C-bspc bspc esc S-ret _    _    _
   _    _    _    _    _    _    _    del  _    _    _    _
   _    _    _              ret            _    _    _
 )
