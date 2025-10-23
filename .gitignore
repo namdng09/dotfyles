@@ -1,8 +1,11 @@
 # Ignore everything
 *
 
-# Include specific folders
+# Include specific folders and their contents
 !nvim/
+!nvim/**
 !mouseless/
+!mouseless/**
 !kanata/
+!kanata/**
 !.tmux.conf
