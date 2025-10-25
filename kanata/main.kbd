@@ -11,7 +11,7 @@
 )
 
 (defvar
-  tap-time 200
+  tap-time 0
   hold-time 150
 
   left-hand-keys (
@@ -33,8 +33,10 @@
   arr (layer-toggle arrows)
   mrk (layer-toggle marks)
   aud (layer-toggle audios)
+  mos (one-shot 1200 (layer-while-held mouse))
 
   ;; tap-hold keys with letters for tap and layer change for hold
+  qmo (tap-hold-release-keys $tap-time $hold-time q @mos $left-hand-keys)
   rmc (tap-hold-release-keys $tap-time $hold-time r @msc $left-hand-keys)
   ear (tap-hold-release-keys $tap-time $hold-time e @arr $left-hand-keys)
   wmk (tap-hold-release-keys $tap-time $hold-time w @mrk $left-hand-keys)
@@ -43,7 +45,7 @@
   ;; home-row-mode-advanced
   a (tap-hold-release-keys $tap-time $hold-time a lctl $left-hand-keys)
   s (tap-hold-release-keys $tap-time $hold-time s lsft $left-hand-keys)
-  d (tap-hold-release-keys $tap-time $hold-time d lmet $left-hand-keys)
+  ;; d (tap-hold-release-keys $tap-time $hold-time d lmet $left-hand-keys)
   f (tap-hold-release-keys $tap-time $hold-time f lalt $left-hand-keys)
 
   l (tap-hold-release-keys $tap-time $hold-time l rsft $right-hand-keys)
@@ -60,12 +62,22 @@
   ~ S-`
   sd S--
   | S-\
+
+  ;; mouse helpers
+  mwhl (mwheel-left 50 120)
+  mwhu (mwheel-up 50 120)
+  mwhd (mwheel-down 50 120)
+  mphr (mwheel-right 50 120)
+  mml (movemouse-left 1 5)
+  mmm (movemouse-down 1 5)
+  mmu (movemouse-up 1 5)
+  mmr (movemouse-right 1 5)
 )
 
 (deflayer base
   esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    @wmk @ear @rmc t    y    u    i    o    p    [    ]    lrld
-  @cap @a   @s   @d   @f   g    h    j    k    @l   @;    '    ret
+  tab  @qmo @wmk @ear @rmc t    y    u    i    o    p    [    ]    lrld
+  @cap @a   @s   d    @f   g    h    j    k    @l   @;    '    ret
   lsft z    x    c    @vau b    n    m    ,    .    /    rsft
   lctl lmet lalt           spc            ralt rmet rctl
 )
@@ -99,5 +111,13 @@
   _    _    _    _    _    _    pp   prev next _    _    _    _    _
   _    _    _    _    _    _    mute voldwn volu _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+(deflayer mouse
+  _    _    _    _    _    _    _     _     _     _     _    _    _    _
+  _    _    _    _    _    _    @mwhl @mwhu @mwhd @mphr _    _    _    _
+  _    _    _    _    mlft mmid @mml  @mmm  @mmu  @mmr  mrgt _    _
+  _    _    _    _    _    _    mltp  mmtp  mrtp  mbtp  mftp _
   _    _    _              _              _    _    _
 )
