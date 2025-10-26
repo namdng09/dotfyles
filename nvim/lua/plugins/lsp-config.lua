@@ -63,6 +63,13 @@ return {
 					outline = true,
 					suggestFromUnimportedLibraries = true,
 				},
+				-- root_dir = root_pattern("pubspec.yaml"),
+				settings = {
+					dart = {
+						completeFunctionCalls = true,
+						showTodos = true,
+					},
+				},
 			})
 
 			-- setup the lua language server
