@@ -1,5 +1,6 @@
 (defcfg
   process-unmapped-keys yes
+  danger-enable-cmd yes
 )
 
 (defsrc
@@ -38,8 +39,10 @@
   num (layer-toggle number)
 
   ;; change the base layer between base and mouse
-  bsa (layer-switch base)
-  msa (layer-switch mouse)
+  bsa (multi (layer-switch base)
+             (cmd notify-send -i dialog-information "🖱️ Mouseless" "Mouse OFF 🟥🟥🟥"))
+  msa (multi (layer-switch mouse)
+             (cmd notify-send -i dialog-information "🖱️ Mouseless" "Mouse ON 🟩🟩🟩"))
 
   ;; tap-hold keys with letters for tap and layer change for hold
   ;; qmo (tap-hold-release-keys $tap-time $hold-time q @msa $left-hand-keys)
