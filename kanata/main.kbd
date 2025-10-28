@@ -33,11 +33,16 @@
   arr (layer-toggle arrows)
   mrk (layer-toggle marks)
   aud (layer-toggle audios)
-  mos (one-shot 1200 (layer-while-held mouse))
+  sow (layer-toggle mouseslow)
+  mow (layer-toggle mousemore)
   num (layer-toggle number)
 
+  ;; change the base layer between base and mouse
+  bsa (layer-switch base)
+  msa (layer-switch mouse)
+
   ;; tap-hold keys with letters for tap and layer change for hold
-  qmo (tap-hold-release-keys $tap-time $hold-time q @mos $left-hand-keys)
+  ;; qmo (tap-hold-release-keys $tap-time $hold-time q @msa $left-hand-keys)
   rmc (tap-hold-release-keys $tap-time $hold-time r @msc $left-hand-keys)
   ear (tap-hold-release-keys $tap-time $hold-time e @arr $left-hand-keys)
   wmk (tap-hold-release-keys $tap-time $hold-time w @mrk $left-hand-keys)
@@ -47,7 +52,7 @@
   ;; home-row-mode-advanced
   a (tap-hold-release-keys $tap-time $hold-time a lctl $left-hand-keys)
   s (tap-hold-release-keys $tap-time $hold-time s lsft $left-hand-keys)
-  d (tap-hold-release-keys $tap-time $hold-time d @mos $left-hand-keys)
+  ;; d (tap-hold-release-keys $tap-time $hold-time d @lmet $left-hand-keys)
   f (tap-hold-release-keys $tap-time $hold-time f lalt $left-hand-keys)
 
   l (tap-hold-release-keys $tap-time $hold-time l rsft $right-hand-keys)
@@ -67,7 +72,6 @@
 
   ;; mouse helpers
   fst (movemouse-speed 300)
-  slw (movemouse-speed 1)
 
   mwhl (mwheel-left 50 120)
   mwhu (mwheel-up 50 120)
@@ -77,21 +81,31 @@
   mmm (movemouse-down 1 1)
   mmu (movemouse-up 1 1)
   mmr (movemouse-right 1 1)
+
+  mmls (movemouse-left 5 1)
+  mmms (movemouse-down 5 1)
+  mmus (movemouse-up 5 1)
+  mmrs (movemouse-right 5 1)
+
+  mmlm (movemouse-left 7 1)
+  mmmm (movemouse-down 7 1)
+  mmum (movemouse-up 7 1)
+  mmrm (movemouse-right 7 1)
 )
 
 (deflayer base
   esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  @qmo @wmk @ear @rmc t    y    u    i    o    p    [    ]    lrld
+  tab  q    @wmk @ear @rmc t    y    u    i    o    p    [    ]    lrld
   @cap @a   @s   @dnu @f   g    h    j    k    @l   @;    '    ret
-  lsft z    x    c    @vau b    n    m    ,    .    /    rsft
+  @msa z    x    c    @vau b    n    m    ,    .    /    rsft
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
 (deflayer misc
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    S-M-left S-M-down S-M-up S-M-right _    _    _    _
-  _    _    _    _    _    _    C-bspc bspc S-ret esc _   _    _
-  _    _    _    _    _    _    A-e  del  A-F4  _    _    _
+  _    _    _    _    _    _    C-bspc bspc S-ret esc A-F4 _    _
+  _    _    _    _    _    _    A-e  del  _    _    _    _
   _    _    _              ret            _    _    _
 )
 
@@ -120,9 +134,25 @@
 )
 
 (deflayer mouse
-  _    _    _    _    _    _    _     _     _     _     _    _    _    _
-  _    _    @fst _    mlft _    @mwhl @mwhd @mwhu @mphr mftp _    _    _
-  _    _    _    _    _    _    @mml  @mmm  @mmu  @mmr  mbtp _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    @mwhl @mwhd @mwhu @mphr mftp _    _    _
+  _    @mow @sow @fst mlft _    @mml  @mmm  @mmu  @mmr  mbtp _    _
+  @bsa _    _    _    _    _    mltp  mmtp  mrtp  _     _    _
+  _    _    _              C-x            _    _    _
+)
+
+(deflayer mouseslow
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    @mwhl @mwhd @mwhu @mphr mftp _    _    _
+  _    _    _    @fst mlft _    @mmls  @mmms  @mmus  @mmrs  mbtp _    _
+  _    _    _    _    _    _    mltp  mmtp  mrtp  _     _    _
+  _    _    _              C-x            _    _    _
+)
+
+(deflayer mousemore
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    @mwhl @mwhd @mwhu @mphr mftp _    _    _
+  _    _    _    @fst mlft _    @mmlm  @mmmm  @mmum  @mmrm  mbtp _    _
   _    _    _    _    _    _    mltp  mmtp  mrtp  _     _    _
   _    _    _              C-x            _    _    _
 )
@@ -134,4 +164,3 @@
   _    _    _    _    _    _    1    2    3    _    _    _
   _    _    _              C-a            _    _    _
 )
-
