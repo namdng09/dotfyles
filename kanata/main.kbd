@@ -34,7 +34,6 @@
   arr (layer-toggle arrows)
   mrk (layer-toggle marks)
   aud (layer-toggle audios)
-  sow (layer-toggle mouseslow)
   mow (layer-toggle mousemore)
   num (layer-toggle number)
 
@@ -74,21 +73,18 @@
   | S-\
 
   ;; mouse helpers
-  fst (movemouse-speed 300)
+  fst (movemouse-speed 900)
+  sow (movemouse-speed 500)
 
   mwhl (mwheel-left 50 120)
   mwhu (mwheel-up 50 120)
   mwhd (mwheel-down 50 120)
   mphr (mwheel-right 50 120)
-  mml (movemouse-left 1 1)
-  mmm (movemouse-down 1 1)
-  mmu (movemouse-up 1 1)
-  mmr (movemouse-right 1 1)
 
-  mmls (movemouse-left 5 1)
-  mmms (movemouse-down 5 1)
-  mmus (movemouse-up 5 1)
-  mmrs (movemouse-right 5 1)
+  mml (movemouse-left 3 1)
+  mmm (movemouse-down 3 1)
+  mmu (movemouse-up 3 1)
+  mmr (movemouse-right 3 1)
 
   mmlm (movemouse-left 7 1)
   mmmm (movemouse-down 7 1)
@@ -138,31 +134,23 @@
 
 (deflayer mouse
   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
-  XX   XX   XX   XX   XX   XX   @mwhl @mwhd @mwhu @mphr mftp _    _    _
-  _    @mow @sow @fst mlft _    @mml  @mmm  @mmu  @mmr  mbtp _    _
-  @bsa _    _    _    _    _    mltp  mmtp  mrtp  _     _    _
-  _    _    _              C-x            _    _    _
-)
-
-(deflayer mouseslow
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    @mwhl @mwhd @mwhu @mphr mftp _    _    _
-  _    _    _    @fst mlft _    @mmls  @mmms  @mmus  @mmrs  mbtp _    _
-  _    _    _    _    _    _    mltp  mmtp  mrtp  _     _    _
-  _    _    _              C-x            _    _    _
+  XX   XX   XX   XX   XX   XX   @mwhl @mwhd @mwhu @mphr mftp XX   XX   XX
+  XX   @mow @sow @fst mlft XX   @mml  @mmm  @mmu  @mmr  mbtp XX   XX
+  @bsa XX   XX   XX   XX   XX   mltp  mmtp  mrtp  XX   XX   XX
+  XX   XX   XX             C-x            XX   XX   XX
 )
 
 (deflayer mousemore
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    @mwhl @mwhd @mwhu @mphr mftp _    _    _
-  _    _    _    @fst mlft _    @mmlm  @mmmm  @mmum  @mmrm  mbtp _    _
-  _    _    _    _    _    _    mltp  mmtp  mrtp  _     _    _
-  _    _    _              C-x            _    _    _
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   @mwhl @mwhd @mwhu @mphr mftp XX   XX   XX
+  XX   XX   XX   @fst mlft XX   @mmlm  @mmmm  @mmum  @mmrm  mbtp XX   XX
+  XX   XX   XX   XX   XX   XX   mltp  mmtp  mrtp  XX   XX   XX
+  XX   XX   XX             C-x            XX   XX   XX
 )
 
 (deflayer number
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    7    8    9    _    _    _    _    _
+  _    _    _    _    _    _    7    8    9    _    M-S-s _    _    _
   _    _    _    _    _    _    4    5    6    0    _    _    _
   _    _    _    _    _    _    1    2    3    _    _    _
   _    _    _              C-a            _    _    _
