@@ -108,7 +108,7 @@
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    S-M-left S-M-down S-M-up S-M-right _    _    _    _
   _    _    _    _    _    _    C-bspc bspc S-ret esc A-F4 _    _
-  _    _    _    _    _    _    A-e  del  _    _    _    _
+  _    _    _    _    _    _    A-e  del  M-pgup M-pgdn _    _
   _    _    _              ret            _    _    _
 )
 
@@ -137,8 +137,8 @@
 )
 
 (deflayer mouse
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    @mwhl @mwhd @mwhu @mphr mftp _    _    _
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   @mwhl @mwhd @mwhu @mphr mftp _    _    _
   _    @mow @sow @fst mlft _    @mml  @mmm  @mmu  @mmr  mbtp _    _
   @bsa _    _    _    _    _    mltp  mmtp  mrtp  _     _    _
   _    _    _              C-x            _    _    _
