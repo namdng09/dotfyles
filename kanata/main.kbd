@@ -12,7 +12,7 @@
 )
 
 (defvar
-  tap-time 0
+  tap-time 200
   hold-time 150
 
   left-hand-keys (
@@ -37,25 +37,27 @@
   mow (layer-toggle mousemore)
   num (layer-toggle number)
 
+  ctx (layer-toggle newlayer)
+
   ;; change the base layer between base and mouse
-  bsa (multi (layer-switch base)
-             (cmd notify-send -i dialog-information "🖱️ Mouseless" "Mouse OFF 🟥🟥🟥"))
-  msa (multi (layer-switch mouse)
-             (cmd notify-send -i dialog-information "🖱️ Mouseless" "Mouse ON 🟩🟩🟩"))
+  bsa (layer-switch base)
+  msa (layer-switch mouse)
 
   ;; tap-hold keys with letters for tap and layer change for hold
   ;; qmo (tap-hold-release-keys $tap-time $hold-time q @msa $left-hand-keys)
-  rmc (tap-hold-release-keys $tap-time $hold-time r @msc $left-hand-keys)
+  fmc (tap-hold-release-keys $tap-time $hold-time f @msc $left-hand-keys)
   ear (tap-hold-release-keys $tap-time $hold-time e @arr $left-hand-keys)
   wmk (tap-hold-release-keys $tap-time $hold-time w @mrk $left-hand-keys)
   vau (tap-hold-release-keys $tap-time $hold-time v @aud $left-hand-keys)
   dnu (tap-hold-release-keys $tap-time $hold-time d @num $left-hand-keys)
 
+  qcx (tap-hold-release-keys $tap-time $hold-time q @ctx $left-hand-keys)
+
   ;; home-row-mode-advanced
   a (tap-hold-release-keys $tap-time $hold-time a lctl $left-hand-keys)
   s (tap-hold-release-keys $tap-time $hold-time s lsft $left-hand-keys)
   ;; d (tap-hold-release-keys $tap-time $hold-time d @lmet $left-hand-keys)
-  f (tap-hold-release-keys $tap-time $hold-time f lalt $left-hand-keys)
+  r (tap-hold-release-keys $tap-time $hold-time r lalt $left-hand-keys)
 
   l (tap-hold-release-keys $tap-time $hold-time l rsft $right-hand-keys)
   ; (tap-hold-release-keys $tap-time $hold-time ; rctl $right-hand-keys)
@@ -76,10 +78,10 @@
   fst (movemouse-speed 900)
   sow (movemouse-speed 500)
 
-  mwhl (mwheel-left 50 120)
-  mwhu (mwheel-up 50 120)
-  mwhd (mwheel-down 50 120)
-  mphr (mwheel-right 50 120)
+  mwhl (mwheel-left 30 120)
+  mwhu (mwheel-up 65 120)
+  mwhd (mwheel-down 65 120)
+  mphr (mwheel-right 30 120)
 
   mml (movemouse-left 3 1)
   mmm (movemouse-down 3 1)
@@ -94,9 +96,9 @@
 
 (deflayer base
   esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    @wmk @ear @rmc t    y    u    i    o    p    [    ]    lrld
-  @cap @a   @s   @dnu @f   g    h    j    k    @l   @;    '    ret
-  @msa z    x    c    @vau b    n    m    ,    .    /    rsft
+  tab  @qcx @wmk @ear @r   t    y    u    i    o    p    [    ]    lrld
+  @cap @a   @s   @dnu @fmc g    h    j    k    @l   @;    '    ret
+  lsft z    x    c    @vau b    n    m    ,    .    /    @msa
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
@@ -110,9 +112,9 @@
 
 (deflayer arrows
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    home pgdn pgup end  _    _    _    _
-  _    _    _    _    _    _    left down up   rght _    _    _
-  _    _    _    _    _    _    C-S-tab C-tab  A-tab _    _    _
+  _    _    _    _    _    _    home pgdn pgup end  mftp _    _    _
+  _    _    _    _    _    _    left down up   rght mbtp _    _
+  _    _    _    _    _    _    C-S-tab C-tab  A-esc A-S-tab _    _
   _    _    _              C-v            _    _    _
 )
 
@@ -128,7 +130,7 @@
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    pp   prev next _    _    _    _    _
   _    _    _    _    _    _    mute voldwn volu _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    @mwhd @mwhu @mwhl @mphr _    _
   _    _    _              _              _    _    _
 )
 
@@ -136,7 +138,7 @@
   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
   XX   XX   XX   XX   XX   XX   @mwhl @mwhd @mwhu @mphr mftp XX   XX   XX
   XX   @mow @sow @fst mlft XX   @mml  @mmm  @mmu  @mmr  mbtp XX   XX
-  @bsa XX   XX   XX   XX   XX   mltp  mmtp  mrtp  XX   XX   XX
+  XX   XX   XX   XX   XX   XX   mltp  mmtp  mrtp  XX   XX   @bsa
   XX   XX   XX             C-x            XX   XX   XX
 )
 
@@ -150,8 +152,24 @@
 
 (deflayer number
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    7    8    9    _    M-S-s _    _    _
-  _    _    _    _    _    _    4    5    6    0    _    _    _
+  _    _    _    _    _    _    7    8    9    _    _    _    _    _
+  _    _    _    _    M-S-s _    4    5    6    0    _    _    _
   _    _    _    _    _    _    1    2    3    _    _    _
   _    _    _              C-a            _    _    _
+)
+
+(deflayer newlayer
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    @mwhd @mwhu _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              C-x            _    _    _
+)
+
+(deflayer emptyLayer
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
 )
