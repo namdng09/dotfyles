@@ -38,6 +38,8 @@
   num (layer-toggle number)
   lay (layer-toggle layers)
 
+  ctx (layer-toggle newlayer)
+
   ;; change the base layer between qwerty and dvorak
   dvk (layer-switch dvorak)
   qwr (layer-switch qwerty)
@@ -48,11 +50,13 @@
 
   ;; tap-hold keys with letters for tap and layer change for hold
   ;; qmo (tap-hold-release-keys $tap-time $hold-time q @msa $left-hand-keys)
-  rmc (tap-hold-release-keys $tap-time $hold-time r @msc $left-hand-keys)
-  ear (tap-hold-release-keys $tap-time $hold-time e @arr $left-hand-keys)
+  fmc (tap-hold-release-keys $tap-time $hold-time f @msc $left-hand-keys)
+  dar (tap-hold-release-keys $tap-time $hold-time d @arr $left-hand-keys)
   wmk (tap-hold-release-keys $tap-time $hold-time w @mrk $left-hand-keys)
   vau (tap-hold-release-keys $tap-time $hold-time v @aud $left-hand-keys)
-  qnu (tap-hold-release-keys $tap-time $hold-time q @num $left-hand-keys)
+  enu (tap-hold-release-keys $tap-time $hold-time e @num $left-hand-keys)
+
+  qcx (tap-hold-release-keys $tap-time $hold-time q @ctx $left-hand-keys)
 
   ;; change layout
   grl (tap-hold-release 200 200 grv @lay)
@@ -60,8 +64,8 @@
   ;; home-row-mode-advanced
   a (tap-hold-release-keys $tap-time $hold-time a lctl $left-hand-keys)
   s (tap-hold-release-keys $tap-time $hold-time s lsft $left-hand-keys)
-  d (tap-hold-release-keys $tap-time $hold-time d lalt $left-hand-keys)
-  f (tap-hold-release-keys $tap-time $hold-time f lmet $left-hand-keys)
+  ;; d (tap-hold-release-keys $tap-time $hold-time d @lmet $left-hand-keys)
+  r (tap-hold-release-keys $tap-time $hold-time r lalt $left-hand-keys)
 
   l (tap-hold-release-keys $tap-time $hold-time l rsft $right-hand-keys)
   ; (tap-hold-release-keys $tap-time $hold-time ; rctl $right-hand-keys)
@@ -99,9 +103,9 @@
 )
 
 (deflayer base
-  @grl 1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  @qnu @wmk @ear @rmc t    y    u    i    o    p    [    ]    lrld
-  @cap @a   @s   @d   @f   g    h    j    k    @l   @;    '    ret
+  @grl  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  @qcx @wmk @enu @r   t    y    u    i    o    p    [    ]    lrld
+  @cap @a   @s   @dar @fmc g    h    j    k    @l   @;    '    ret
   lsft z    x    c    @vau b    n    m    ,    .    /    @msa
   lctl lmet lalt           spc            ralt rmet rctl
 )
@@ -159,6 +163,14 @@
   _    _    _    _    C-S-q _    7    8    9    _    _    _    _    _
   _    _    _    _    M-S-s _    4    5    6    0    _    _    _
   _    _    _    _    _    _    1    2    3    _    _    _
+  _    _    _              C-a            _    _    _
+)
+
+(deflayer newlayer
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    @mwhd @mwhu _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _              C-x            _    _    _
 )
 
