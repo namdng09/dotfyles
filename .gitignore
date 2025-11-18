@@ -9,3 +9,4 @@
 !kanata/
 !kanata/**
 !.tmux.conf
+!.config
