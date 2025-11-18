@@ -8,16 +8,16 @@ layers:
   # the first layer is active at start
   - name: initial
     bindings:
-      rightshift: layer mouse
+      rightshift: multi layer mouse; exec notify-send -i dialog-information "🖱️ Mouseless" "Mouse ON 🟩🟩🟩"
 
   - name: mouse
     # when true, keys that are not mapped keep their original meaning
     passThrough: false
-    enterCommand: "notify-send -i dialog-information '🖱️ Mouseless' 'Mouse ON 🟩🟩🟩'"
-    exitCommand: "notify-send -i dialog-information '🖱️ Mouseless' 'Mouse OFF 🟥🟥🟥'"
+    # enterCommand: "notify-send -i dialog-information '🖱️ Mouseless' 'Mouse ON 🟩🟩🟩'"
+    # exitCommand: "notify-send -i dialog-information '🖱️ Mouseless' 'Mouse OFF 🟥🟥🟥'"
     bindings:
       # quit layer 
-      q: layer initial
+      q: multi layer initial; exec notify-send -i dialog-information "🖱️ Mouseless" "Mouse OFF 🟥🟥🟥"
       c: reload-config
 
       h: move -1  0

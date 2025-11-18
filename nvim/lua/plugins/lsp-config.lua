@@ -53,6 +53,25 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			require("lspconfig").prismals.setup({})
 
+			lspconfig.dartls.setup({
+				cmd = { "dart", "language-server", "--protocol=lsp" },
+				filetypes = { "dart" },
+				init_options = {
+					closingLabels = true,
+					flutterOutline = true,
+					onlyAnalyzeProjectsWithOpenFiles = true,
+					outline = true,
+					suggestFromUnimportedLibraries = true,
+				},
+				-- root_dir = root_pattern("pubspec.yaml"),
+				settings = {
+					dart = {
+						completeFunctionCalls = true,
+						showTodos = true,
+					},
+				},
+			})
+
 			-- setup the lua language server
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,

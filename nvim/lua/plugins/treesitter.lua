@@ -45,6 +45,7 @@ return {
         "query",
         "vimdoc",
         "c",
+        "dart",
         "java", -- Added Java
         "go", -- Added Go
       },

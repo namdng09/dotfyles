@@ -196,6 +196,6 @@ return {
     { "<leader>z",  function() Snacks.zen() end,                desc = "Toggle Zen Mode" },
     { "<leader>Z",  function() Snacks.zen.zoom() end,           desc = "Toggle Zoom" },
     { "<leader>bd", function() Snacks.bufdelete() end,          desc = "Delete Buffer" },
-    { "<leader>rn", function() Snacks.rename.rename_file() end, desc = "Rename File" },
+    { "<leader>cw", function() Snacks.toggle.option("wrap") end, desc = "Wrap Code" },
   }
 }
