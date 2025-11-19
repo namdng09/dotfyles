@@ -10,23 +10,12 @@ return {
 	{
 		"williamboman/mason-lspconfig.nvim",
 		config = function()
-			-- ensure that we have lua language server, typescript launguage server, java language server, and java test language server are installed
+			-- ensure that we have lua language server, typescript launguage server
 			require("mason-lspconfig").setup({
 				ensure_installed = { "eslint", "ts_ls", "lua_ls" },
 			})
 		end,
 	},
-	-- mason nvim dap utilizes mason to automatically ensure debug adapters you want installed are installed, mason-lspconfig will not automatically install debug adapters for us
-	{
-		"jay-babu/mason-nvim-dap.nvim",
-		config = function()
-			-- ensure the java debug adapter is installed
-			require("mason-nvim-dap").setup({
-				ensure_installed = { "java-debug-adapter", "java-test" },
-			})
-		end,
-	},
-
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
@@ -80,14 +69,6 @@ return {
 						disableSuggestions = true,
 					},
 				},
-			})
-
-			-- Automatically start jdtls in Java files
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "java",
-				callback = function()
-					vim.cmd("LspStart jdtls")
-				end,
 			})
 
 			-- setup PHP LSP (phpactor)
