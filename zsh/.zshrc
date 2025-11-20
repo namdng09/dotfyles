@@ -122,6 +122,8 @@ if [[ -f "$HOME/.config/zsh/init_zsh.sh" ]]; then
   source "$HOME/.config/zsh/init_zsh.sh"
 fi
 
+source init
+
 ## Add shortcut "Shift + Enter"
 bindkey '^[OM' autosuggest-accept
 
