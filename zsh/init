@@ -18,10 +18,10 @@ fi
 
 # --- fzf ---
 if command -v fzf &> /dev/null; then
-  if [[ -f /fzf/completion.zsh ]]; then
-    source /fzf/completion.zsh
+  if [[ -f fzf/completion.zsh ]]; then
+    source fzf/completion.zsh
   fi
-  if [[ -f /fzf/key-bindings.zsh ]]; then
-    source /fzf/key-bindings.zsh
+  if [[ -f fzf/key-bindings.zsh ]]; then
+    source fzf/key-bindings.zsh
   fi
 fi
