@@ -111,38 +111,47 @@ return {
 			"<leader>ff",
 			function()
 				Snacks.picker.files({
-					-- include files ignored by .gitignore
-
 					args = {
 						"--no-ignore",
 						"--no-ignore-vcs",
 						"--hidden",
-						"--exclude",
-						"node_modules",
-						"--exclude",
-						"target",
-						"--exclude",
-						"dist",
+						"--exclude", "node_modules",
+						"--exclude", "target",
+						"--exclude", "dist",
+						"--exclude", "android",
+						"--exclude", ".dart_tool",
+						"--exclude", ".idea",
+						"--exclude", "build",
+						"--exclude", "ios",
+						"--exclude", "macos",
+						"--exclude", "web",
+						"--exclude", "windows",
+						"--exclude", "linux",
 					},
 				})
 			end,
-			desc = "Fuzzy find recent files",
+			desc = "Fuzzy find files",
 		},
 		{
 			"<leader>fs",
 			function()
 				Snacks.picker.grep({
-					-- include files ignored by .gitignore
 					args = {
 						"--no-ignore",
 						"--no-ignore-vcs",
 						"--hidden",
-						"--glob",
-						"!node_modules/*",
-						"--glob",
-						"!target/*",
-						"--glob",
-						"!dist/*",
+						"--glob", "!node_modules/*",
+						"--glob", "!target/*",
+						"--glob", "!dist/*",
+						"--glob", "!android/*",
+						"--glob", "!.dart_tool/*",
+						"--glob", "!.idea/*",
+						"--glob", "build",
+						"--glob", "ios",
+						"--glob", "macos",
+						"--glob", "web",
+						"--glob", "windows",
+						"--glob", "linux",
 					},
 				})
 			end,
