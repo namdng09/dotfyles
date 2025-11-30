@@ -122,7 +122,7 @@ if [[ -f "$HOME/.config/zsh/init_zsh.sh" ]]; then
   source "$HOME/.config/zsh/init_zsh.sh"
 fi
 
-source init
+source "$HOME/dotfyles/zsh/init"
 
 ## Add shortcut "Shift + Enter"
 bindkey '^[OM' autosuggest-accept
@@ -158,10 +158,25 @@ alias cd....='cd ../../../'
 
 alias docker='sudo docker'
 
-export PATH="$PATH:$HOME/develop/flutter/bin"
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH="$HOME/develop/flutter/bin:$PATH"
+export ANDROID_SDK_ROOT=$HOME/Android/Sdk
+export ANDROID_AVD_HOME=$HOME/.android/avd
+export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
 
 export ANDROID_SDK_ROOT=~/Android/Sdk
 export PATH=$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
+
+# A version manager for nodejs - NVM
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+# Yazi - ⚡️ Blazing Fast Terminal File Manager 
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
