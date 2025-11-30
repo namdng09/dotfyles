@@ -118,7 +118,7 @@ window#waybar.empty #window{
 
 
 #workspaces button.empty {
-  /* opacity: 0.5; */
+  opacity: 0.5;
 }
 
 #hyprland-window,
