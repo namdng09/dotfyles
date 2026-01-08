@@ -9,6 +9,7 @@ return {
       ["typescriptreact"] = { "prettierd", "prettier" },
       ["json"] = { "prettierd", "prettier" },
       ["lua"] = { "stylua" },
+      ["dart"] = { "dart_format" },
     },
   },
   keys = {
@@ -17,7 +18,7 @@ return {
       function()
         require("conform").format({
           lsp_fallback = true,
-          async = false,
+          async = true,
           timeout_ms = 500,
         })
       end,

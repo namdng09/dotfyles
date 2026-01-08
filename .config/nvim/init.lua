@@ -30,6 +30,7 @@ local opts = {
 	},
 }
 
+vim.g.lazyvim_check_order = false
 -- Load the options from the config/options.lua file
 require("config.options")
 -- Load the keymaps from the config/keymaps.lua file

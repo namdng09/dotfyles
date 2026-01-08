@@ -14,6 +14,8 @@
 (defvar
   tap-time 200
   hold-time 150
+  mouse-speed-slow 300
+  mouse-speed-fast 500
 
   left-hand-keys (
     q w e r t
@@ -83,8 +85,8 @@
   | S-\
 
   ;; mouse helpers
-  fst (movemouse-speed 900)
-  sow (movemouse-speed 500)
+  fst (movemouse-speed $mouse-speed-fast)
+  sow (movemouse-speed $mouse-speed-slow)
 
   mwhl (mwheel-left 30 120)
   mwhu (mwheel-up 65 120)
@@ -113,30 +115,30 @@
 (deflayer misc
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    M-C-h M-C-j M-C-k M-C-l _    _    _    _
-  _    _    _    _    _    _    C-bspc bspc S-ret _   M-w _    _
+  _    _    _    _    _    _    C-bspc bspc S-ret C-S-spc M-w _    _
   _    _    _    _    _    _    A-e  del  M-pgup M-pgdn _    _
   _    _    _              ret            _    _    _
 )
 
 (deflayer arrows
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    home pgdn pgup end  mftp _    _    _
+  _    _    _    _    _    _    M-S-h M-S-j M-S-k M-S-l mftp _    _    _
   _    _    _    _    _    _    left down up   rght mbtp _    _
-  _    _    _    _    _    _    C-S-tab C-tab  M-C-j M-C-k _    _
+  _    _    _    _    _    _    C-S-tab C-tab  M-h M-l _    _
   _    _    _              M-v            _    _    _
 )
 
 (deflayer marks
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    @{   @}   `    @~   [    _    _    _
-  _    _    _    _    _    _    -    =    @sd  +    ]    _    _
-  _    _    _    _    _    _    S-9  S-0  \    @|   _    _
+  _    _    _    _    _    _    -    =    @sd  +    S-;  _    _
+  _    _    _    _    _    _    S-9  S-0  \    @|   ]    _
   _    _    _              C-c            _    _    _
 )
 
 (deflayer audios
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    M-S-h M-S-j M-S-k M-S-l _    _    _    _
+  _    _    _    _    _    _    home pgdn pgup end  _    _    _    _
   _    _    _    _    _    _    mute voldwn volu _    _    _    _
   _    _    _    _    _    _    pp   prev next _    _    _
   _    _    _              _              _    _    _
@@ -160,9 +162,9 @@
 
 (deflayer number
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    M-C-v _    7    8    9    _    _    _    _    _
-  _    _    _    _    S-prtsc _    4    5    6    0    _    _    _
-  _    _    _    _    _    _    1    2    3    _    _    _
+  _    _    _    _    M-C-v _   _     7    8    9    _    _    _    _
+  _    _    _    _    S-prtsc _    _    4    5    6    0    _    _
+  _    _    _    _    _    _    _    1    2    3    _    _
   _    _    _              C-a            _    _    _
 )
 

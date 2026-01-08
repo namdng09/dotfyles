@@ -132,31 +132,35 @@ return {
 			end,
 			desc = "Fuzzy find files",
 		},
-		{
-			"<leader>fs",
-			function()
-				Snacks.picker.grep({
-					args = {
-						"--no-ignore",
-						"--no-ignore-vcs",
-						"--hidden",
-						"--glob", "!node_modules/*",
-						"--glob", "!target/*",
-						"--glob", "!dist/*",
-						"--glob", "!android/*",
-						"--glob", "!.dart_tool/*",
-						"--glob", "!.idea/*",
-						"--glob", "build",
-						"--glob", "ios",
-						"--glob", "macos",
-						"--glob", "web",
-						"--glob", "windows",
-						"--glob", "linux",
-					},
-				})
-			end,
-			desc = "Grep",
-		},
+    {
+      "<leader>fs",
+      function()
+        Snacks.picker.grep({
+          args = {
+            "--no-ignore",
+            "--no-ignore-vcs",
+            "--hidden",
+
+            -- Exclude common folders
+            "--glob", "!node_modules/**",
+            "--glob", "!target/**",
+            "--glob", "!dist/**",
+            "--glob", "!android/**",
+            "--glob", "!.dart_tool/**",
+            "--glob", "!.idea/**",
+
+            -- Flutter & platform folders exclude
+            "--glob", "!build/**",
+            "--glob", "!ios/**",
+            "--glob", "!macos/**",
+            "--glob", "!web/**",
+            "--glob", "!windows/**",
+            "--glob", "!linux/**",
+          },
+        })
+      end,
+      desc = "Grep",
+    },
 		{
 			"<leader>fb",
 			function()

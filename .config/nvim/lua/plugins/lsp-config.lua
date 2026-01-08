@@ -25,17 +25,16 @@ return {
 			"hrsh7th/cmp-path",
 			"L3MON4D3/LuaSnip",
 			"saadparwaiz1/cmp_luasnip",
-			"rafamadriz/friendly-snippets",
 		},
 		config = function()
 			-- get access to the lspconfig plugins functions
-			local lspconfig = require("lspconfig")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			require("lspconfig").prismals.setup({})
 
-			lspconfig.dartls.setup({
+			-- Dart LSP
+			vim.lsp.config["dartls"] = {
 				cmd = { "dart", "language-server", "--protocol=lsp" },
 				filetypes = { "dart" },
+				capabilities = capabilities,
 				init_options = {
 					closingLabels = true,
 					flutterOutline = true,
@@ -43,55 +42,40 @@ return {
 					outline = true,
 					suggestFromUnimportedLibraries = true,
 				},
-				-- root_dir = root_pattern("pubspec.yaml"),
 				settings = {
 					dart = {
 						completeFunctionCalls = true,
 						showTodos = true,
 					},
 				},
-			})
+			}
+			vim.lsp.start(vim.lsp.config["dartls"])
 
-			-- setup the lua language server
-			lspconfig.lua_ls.setup({
+			-- Lua LSP
+			vim.lsp.config["lua_ls"] = {
 				capabilities = capabilities,
-			})
+			}
+			vim.lsp.start(vim.lsp.config["lua_ls"])
 
-			-- setup the TypeScript/JavaScript server
-			lspconfig.ts_ls.setup({
+			-- TypeScript/JavaScript LSP
+			vim.lsp.config["ts_ls"] = {
+				capabilities = capabilities,
 				on_attach = function(client, bufnr)
-					-- Update the new field for disabling formatting
 					client.server_capabilities.documentFormattingProvider = false
 				end,
-				capabilities = capabilities,
 				init_options = {
 					preferences = {
 						disableSuggestions = true,
 					},
 				},
-			})
-
-			-- setup PHP LSP (phpactor)
-			lspconfig.phpactor.setup({
-				capabilities = capabilities,
-				cmd = { "phpactor", "language-server" },
-				filetypes = { "php" },
-				root_dir = lspconfig.util.root_pattern("composer.json", ".git", ".phpactor.json", ".phpactor.yml"),
-			})
-
-			-- Auto start PHP LSP when opening php files
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "php",
-				callback = function()
-					vim.cmd("LspStart phpactor")
-				end,
-			})
+			}
+			vim.lsp.start(vim.lsp.config["ts_ls"])
 
 			-- Key mappings
 			local opts = { noremap = true, silent = true, desc = "[C]ode" }
 
 			vim.keymap.set("n", "<leader>ch", vim.lsp.buf.hover, { desc = "[C]ode [H]over Documentation" })
-			vim.keymap.set("n", "<leader>cd", vim.lsp.buf.definition, { desc = "[C]ode Goto [D]efinition" })
+			vim.keymap.set("n", "<leader>ce", vim.lsp.buf.definition, { desc = "[C]ode Goto Definition" })
 			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ctions" })
 			vim.keymap.set(
 				"n",
