@@ -9,8 +9,11 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    lazy = true,
+    lazy = false,
     priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("catppuccin")
+    end,
   },
   {
     "sainnhe/everforest",

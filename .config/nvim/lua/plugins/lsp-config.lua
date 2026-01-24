@@ -31,25 +31,25 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			-- Dart LSP
-			vim.lsp.config["dartls"] = {
-				cmd = { "dart", "language-server", "--protocol=lsp" },
-				filetypes = { "dart" },
-				capabilities = capabilities,
-				init_options = {
-					closingLabels = true,
-					flutterOutline = true,
-					onlyAnalyzeProjectsWithOpenFiles = true,
-					outline = true,
-					suggestFromUnimportedLibraries = true,
-				},
-				settings = {
-					dart = {
-						completeFunctionCalls = true,
-						showTodos = true,
-					},
-				},
-			}
-			vim.lsp.start(vim.lsp.config["dartls"])
+			-- vim.lsp.config["dartls"] = {
+			-- 	cmd = { "dart", "language-server", "--protocol=lsp" },
+			-- 	filetypes = { "dart" },
+			-- 	capabilities = capabilities,
+			-- 	init_options = {
+			-- 		closingLabels = true,
+			-- 		flutterOutline = true,
+			-- 		onlyAnalyzeProjectsWithOpenFiles = true,
+			-- 		outline = true,
+			-- 		suggestFromUnimportedLibraries = true,
+			-- 	},
+			-- 	settings = {
+			-- 		dart = {
+			-- 			completeFunctionCalls = true,
+			-- 			showTodos = true,
+			-- 		},
+			-- 	},
+			-- }
+			-- vim.lsp.start(vim.lsp.config["dartls"])
 
 			-- Lua LSP
 			vim.lsp.config["lua_ls"] = {

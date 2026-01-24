@@ -31,13 +31,16 @@ local opts = {
 }
 
 vim.g.lazyvim_check_order = false
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- Setup lazy BEFORE you load options/keymaps/autocmds
+require("lazy").setup("plugins", opts)
+
 -- Load the options from the config/options.lua file
 require("config.options")
 -- Load the keymaps from the config/keymaps.lua file
 require("config.keymaps")
 -- Load the auto commands from the config/autocmds.lua file
 require("config.autocmds")
--- Setup lazy, this should always be last
--- Tell lazy that all plugin specs are found in the plugins directory
--- Pass it the options we specified above
-require("lazy").setup("plugins", opts)
