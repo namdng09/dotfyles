@@ -14,11 +14,11 @@ return {
         -- Use web devicons if you have a nerdfont installed
         icons_enabled = true,
         -- Set the theme to dracula, lualine documentation has other themes available as well
-        theme = custom_horizon,
+        theme = auto,
         -- Separate components of lua line with chevrons
         component_separators = { left = "", right = "" },
         -- Separate sections with solid triangles
-        section_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
         -- disable the status line and winbar
         disabled_filetypes = {
           statusline = {},

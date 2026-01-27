@@ -5,7 +5,7 @@ return {
   opts = {
     label = {
       -- allow uppercase labels
-      uppercase = true,
+      uppercase = false,
       -- add any labels with the correct case here, that you want to exclude
       exclude = "",
       -- add a label for the first match in the current window.
@@ -30,7 +30,7 @@ return {
       rainbow = {
         enabled = false,
         -- number between 1 and 9
-        shade = 5,
+        shade = 3,
       },
       -- With `format`, you can change how the label is rendered.
       -- Should return a list of `[text, highlight]` tuples.
@@ -58,6 +58,19 @@ return {
         label = "FlashLabel",
       },
     },
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      callback = function()
+        vim.api.nvim_set_hl(0, "FlashLabel", {
+          fg = "#000000",
+          bg = "#FFD966",
+          bold = true,
+        })
+
+        vim.api.nvim_set_hl(0, "FlashBackdrop", {
+          fg = "#888888",
+        })
+      end,
+    })
   },
   -- stylua: ignore
   keys = {

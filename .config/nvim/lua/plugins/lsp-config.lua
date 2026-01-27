@@ -65,7 +65,7 @@ return {
 				end,
 				init_options = {
 					preferences = {
-						disableSuggestions = true,
+						disableSuggestions = false,
 					},
 				},
 			}
@@ -75,7 +75,7 @@ return {
 			local opts = { noremap = true, silent = true, desc = "[C]ode" }
 
 			vim.keymap.set("n", "<leader>ch", vim.lsp.buf.hover, { desc = "[C]ode [H]over Documentation" })
-			vim.keymap.set("n", "<leader>ce", vim.lsp.buf.definition, { desc = "[C]ode Goto Definition" })
+			vim.keymap.set("n", "<leader>cd", vim.lsp.buf.definition, { desc = "[C]ode Goto [D]efinition" })
 			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ctions" })
 			vim.keymap.set(
 				"n",

@@ -116,22 +116,21 @@ return {
             "--no-ignore-vcs",
             "--hidden",
 
-            -- Exclude common folders
-            "--glob", "!node_modules/**",
-            "--glob", "!target/**",
-            "--glob", "!dist/**",
+            -- Exclude folders
+            "--exclude", "node_modules",
+            "--exclude", "target",
+            "--exclude", "dist",
 
-            -- Flutter & platform folders exclude
-            "--glob", "!android/**",
-            "--glob", "!.dart_tool/**",
-            "--glob", "!.idea/**",
-            "--glob", "!build/**",
-            "--glob", "!ios/**",
-            "--glob", "!macos/**",
-            "--glob", "!web/**",
-            "--glob", "!windows/**",
-            "--glob", "!linux/**",
-          }
+            -- Flutter & platform folders
+            "--exclude", "android",
+            "--exclude", ".dart_tool",
+            "--exclude", ".idea",
+            "--exclude", "build",
+            "--exclude", "ios",
+            "--exclude", "macos",
+            "--exclude", "web",
+            "--exclude", "windows",
+            "--exclude", "linux", }
         })
       end,
       desc = "Fuzzy find files",
