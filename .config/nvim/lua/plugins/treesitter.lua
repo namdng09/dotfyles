@@ -21,6 +21,7 @@ return {
         "fish",
         "gitignore",
         "go",
+        "dart",
         "http"
       },
       highlight = {

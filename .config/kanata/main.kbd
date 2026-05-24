@@ -74,6 +74,8 @@
 
   ;; chords
   cap (tap-hold-release 200 200 esc C-a)
+  can (macro C-a n)
+  capn (macro C-a p)
   csv C-S-v
   csc C-S-c
 
@@ -114,9 +116,9 @@
 
 (deflayer misc
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    M-S-pgup M-pgup M-pgdn M-S-pgdn _    _    _    _
-  _    _    _    _    _    _    C-bspc bspc S-ret C-S-spc M-w _    _
-  _    _    _    _    _    _    A-e  del  M-pgup M-pgdn _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    C-bspc bspc S-ret _     _   _    _
+  _    _    _    _    _    _    A-'  del  M-pgup M-pgdn _    _
   _    _    _              ret            _    _    _
 )
 
@@ -170,9 +172,9 @@
 
 (deflayer newlayer
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    M-A-pgup M-pgup M-pgdn M-A-pgdn    _    _    _    _
   _    _    _    _    _    _    @mwhl @mwhd @mwhu @mphr _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    @capn @can  _    _    _    _
   _    _    _              C-x            _    _    _
 )
 

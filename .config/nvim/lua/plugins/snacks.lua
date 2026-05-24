@@ -130,6 +130,8 @@ return {
             "--exclude", "macos",
             "--exclude", "web",
             "--exclude", "windows",
+            "--exclude", "__MACOSX",
+            "--exclude", ".next",
             "--exclude", "linux", }
         })
       end,
@@ -159,6 +161,8 @@ return {
             "--glob", "!web/**",
             "--glob", "!windows/**",
             "--glob", "!linux/**",
+            "--glob", "!.next/**",
+            "--glob", "!__MACOSX/**",
           },
         })
       end,
