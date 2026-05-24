@@ -58,20 +58,27 @@ return {
         label = "FlashLabel",
       },
     },
-    vim.api.nvim_create_autocmd("ColorScheme", {
-      callback = function()
-        vim.api.nvim_set_hl(0, "FlashLabel", {
-          fg = "#000000",
-          bg = "#FFD966",
-          bold = true,
-        })
-
-        vim.api.nvim_set_hl(0, "FlashBackdrop", {
-          fg = "#888888",
-        })
-      end,
-    })
   },
+  config = function(_, opts)
+    require("flash").setup(opts)
+
+    local function set_flash_highlights()
+      vim.api.nvim_set_hl(0, "FlashLabel", {
+        fg = "#000000",
+        bg = "#FFD966",
+        bold = true,
+      })
+
+      vim.api.nvim_set_hl(0, "FlashBackdrop", {
+        fg = "#888888",
+      })
+    end
+
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      callback = set_flash_highlights,
+    })
+    set_flash_highlights()
+  end,
   -- stylua: ignore
   keys = {
     { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },

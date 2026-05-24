@@ -46,6 +46,10 @@ return {
         return {
           Folded = { bg = colors.none },
           UfoFoldedEllipsis = { fg = colors.blue, bg = colors.none },
+          Cursor = { fg = colors.base, bg = colors.text },
+          lCursor = { fg = colors.base, bg = colors.text },
+          CursorIM = { fg = colors.base, bg = colors.text },
+          TermCursor = { fg = colors.base, bg = colors.text },
         }
       end,
       integrations = {
