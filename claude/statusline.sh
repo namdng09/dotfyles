@@ -88,9 +88,10 @@ if [ -n "$d" ] && [ -e "$d/.git" ]; then
     "ref: refs/heads/"*) branch=${head#ref: refs/heads/} ;;
     *) branch=${head:0:7} ;;
   esac
-  cache="${TMPDIR:-/tmp}/claude-statusline-$(printf '%s' "$d" | md5sum | cut -c1-12)"
+  # cksum + stat -c/-f: chạy được cả GNU (Linux) lẫn BSD (macOS)
+  cache="${TMPDIR:-/tmp}/claude-statusline-$(printf '%s' "$d" | cksum | cut -d' ' -f1)"
   now=$(date +%s)
-  mtime=$(stat -c %Y "$cache" 2>/dev/null || echo 0)
+  mtime=$(stat -c %Y "$cache" 2>/dev/null || stat -f %m "$cache" 2>/dev/null || echo 0)
   if [ $(( now - mtime )) -gt 30 ]; then
     touch "$cache"
     ( s=$(git -C "$d" status --porcelain --untracked-files=no 2>/dev/null | head -n1)

@@ -122,6 +122,8 @@ return {
         {
           section = "terminal",
           cmd = "fish -c 'pokemon-colorscripts -r --no-title; sleep .1'",
+          -- hide the pane on machines without fish / pokemon-colorscripts (e.g. fresh macOS)
+          enabled = vim.fn.executable("fish") == 1 and vim.fn.executable("pokemon-colorscripts") == 1,
           random = 10,
           pane = 2,
           indent = 4,
