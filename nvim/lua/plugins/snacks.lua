@@ -2,6 +2,65 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  -- Fix the dashboard terminal section (pokemon-colorscripts) on nvim 0.12:
+  --  * nvim 0.12 draws "[Process exited 0]" as an extmark (virtual text) instead
+  --    of a buffer line, so snacks' own hide_process_exited() no longer catches it.
+  --  * the term buffer is started in a hidden window that inherits the global
+  --    number/relativenumber, and those come back when snacks swaps it into the
+  --    float -> line numbers on the left.
+  init = function()
+    local exitmsg_ns = vim.api.nvim_create_namespace("nvim.terminal.exitmsg")
+    local group = vim.api.nvim_create_augroup("snacks_dashboard_term", { clear = true })
+
+    local function clean(buf)
+      if not vim.api.nvim_buf_is_valid(buf) or vim.bo[buf].filetype ~= "snacks_dashboard" then
+        return
+      end
+      vim.api.nvim_buf_clear_namespace(buf, exitmsg_ns, 0, -1)
+      -- the dashboard is a static screen: ignore the mouse wheel so it never scrolls
+      for _, dir in ipairs({ "Up", "Down", "Left", "Right" }) do
+        for _, mod in ipairs({ "", "S-", "C-", "A-" }) do
+          vim.keymap.set({ "n", "v" }, ("<%sScrollWheel%s>"):format(mod, dir), "<Nop>", { buffer = buf, silent = true })
+        end
+      end
+      for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+        for opt, val in pairs({
+          number = false,
+          relativenumber = false,
+          signcolumn = "no",
+          foldcolumn = "0",
+          statuscolumn = "",
+          cursorline = false,
+        }) do
+          vim.wo[win][0][opt] = val
+        end
+      end
+    end
+
+    vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
+      group = group,
+      callback = function(ev)
+        clean(ev.buf)
+      end,
+    })
+    -- the main dashboard buffer gets its filetype without firing FileType
+    vim.api.nvim_create_autocmd("User", {
+      group = group,
+      pattern = "SnacksDashboardOpened",
+      callback = function()
+        clean(vim.api.nvim_get_current_buf())
+      end,
+    })
+    -- the exit message is set on TermClose, which can fire after FileType
+    vim.api.nvim_create_autocmd("TermClose", {
+      group = group,
+      callback = function(ev)
+        vim.defer_fn(function()
+          clean(ev.buf)
+        end, 50)
+      end,
+    })
+  end,
   ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
