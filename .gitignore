@@ -1,4 +1,4 @@
 *.log
 .nvimlog
 # plugin tmux do TPM tai ve
-tmux/.config/tmux/plugins/
+tmux/plugins/

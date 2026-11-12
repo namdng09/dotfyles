@@ -101,14 +101,14 @@ return {
   keys = {
     -- Fuzzy find
     {
-      "<leader>um",
+      "<leader>fm",
       function()
         Snacks.picker.smart()
       end,
       desc = "Smart Find Files",
     },
     {
-      "<leader>uu",
+      "<leader>ff",
       function()
         Snacks.picker.files({
           args = {
@@ -119,26 +119,13 @@ return {
             -- Exclude folders
             "--exclude", "node_modules",
             "--exclude", "target",
-            "--exclude", "dist",
-
-            -- Flutter & platform folders
-            "--exclude", "android",
-            "--exclude", ".dart_tool",
-            "--exclude", ".idea",
-            "--exclude", "build",
-            "--exclude", "ios",
-            "--exclude", "macos",
-            "--exclude", "web",
-            "--exclude", "windows",
-            "--exclude", "__MACOSX",
-            "--exclude", ".next",
-            "--exclude", "linux", }
+            "--exclude", "dist", }
         })
       end,
       desc = "Fuzzy find files",
     },
     {
-      "<leader>us",
+      "<leader>fs",
       function()
         Snacks.picker.grep({
           args = {
@@ -169,7 +156,7 @@ return {
       desc = "Grep",
     },
     {
-      "<leader>ub",
+      "<leader>fb",
       function()
         Snacks.picker.buffers()
       end,
@@ -183,7 +170,7 @@ return {
       desc = "Delete Buffer",
     },
     {
-      "<leader>uc",
+      "<leader>fc",
       function()
         Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
       end,
