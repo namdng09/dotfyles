@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Status line Claude Code:
-#   ◆ Opus 5.5  📁 toast-sigma  ⎇ main*  ████████░░░░░░░░░░░░ 41.3% · dùng 82.6k · còn 117.4k / 200k  $0.42
+#   ◆ Opus 5.5  📁 toast-sigma  ⎇ main*  ████████░░░░░░░░░░░░ 41.3% · used 82.6k · left 117.4k / 200k  $0.42
 # Phải chạy nhanh: Claude Code huỷ lần chạy cũ khi có cập nhật mới, script chậm thì status line trống.
 input=$(cat)
 
@@ -104,7 +104,7 @@ fi
 cost_part=""
 [ -n "$cost" ] && cost_part="  ${C_COST}$(printf '$%.2f' "$cost")${R}"
 warn=""
-[ "$pct10" -ge 900 ] && warn="  ${FG}${B}⚠ sắp đầy${R}"
+[ "$pct10" -ge 900 ] && warn="  ${FG}${B}⚠ almost full${R}"
 
 printf '%s' \
   "${C_MODEL}${B}◆ ${model}${R}" \
@@ -112,6 +112,6 @@ printf '%s' \
   "${git_part}" \
   "  ${bar}" \
   " ${FG}${B}${pct_txt}${R}" \
-  " ${DIM}·${R} dùng ${FG}$(fmt "$used")${R}" \
-  " ${DIM}·${R} còn ${B}$(fmt "$left")${R}${DIM} / $(fmt "$size")${R}" \
+  " ${DIM}·${R} used ${FG}$(fmt "$used")${R}" \
+  " ${DIM}·${R} left ${B}$(fmt "$left")${R}${DIM} / $(fmt "$size")${R}" \
   "${warn}${cost_part}"
