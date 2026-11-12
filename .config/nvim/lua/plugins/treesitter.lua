@@ -10,6 +10,7 @@ return {
         "html",
         "css",
         "bash",
+        "regex",
         "markdown",
         "markdown_inline",
         "lua",

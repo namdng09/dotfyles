@@ -1,6 +1,7 @@
 (defcfg
   process-unmapped-keys yes
   danger-enable-cmd yes
+  linux-dev-names-exclude ("Lotus-Uinput-Server")
 )
 
 (defsrc
@@ -49,6 +50,9 @@
   ;; change the base layer between base and mouse
   bsa (layer-switch base)
   msa (layer-switch mouse)
+  mlb (multi mltp @bsa)
+  mmb (multi mmtp @bsa)
+  mrb (multi mrtp @bsa)
 
   ;; tap-hold keys with letters for tap and layer change for hold
   ;; qmo (tap-hold-release-keys $tap-time $hold-time q @msa $left-hand-keys)
@@ -110,7 +114,7 @@
   @grl  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  @qcx @wmk @enu @r   t    y    u    i    o    p    [    ]    lrld
   @cap @a   @s   @dar @fmc g    h    j    k    @l   @;    '    ret
-  lsft z    x    c    @vau b    n    m    ,    .    /    @msa
+  lsft z    x    c    @vau b    n    m    ,    .    /    rsft
   lctl lalt lmet           spc            rmet ralt rctl
 )
 
@@ -150,7 +154,7 @@
   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
   XX   XX   XX   XX   XX   XX   @mwhl @mwhd @mwhu @mphr mftp XX   XX   XX
   XX   @mow @sow @fst mlft XX   @mml  @mmm  @mmu  @mmr  mbtp XX   XX
-  XX   XX   XX   XX   XX   XX   mltp  mmtp  mrtp  XX   XX   @bsa
+  XX   XX   XX   XX   XX   XX   @mlb  mmtp  mrtp  mltp XX   @bsa
   XX   XX   XX             C-x            XX   XX   XX
 )
 
@@ -158,7 +162,7 @@
   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
   XX   XX   XX   XX   XX   XX   @mwhl @mwhd @mwhu @mphr mftp XX   XX   XX
   XX   XX   XX   @fst mlft XX   @mmlm  @mmmm  @mmum  @mmrm  mbtp XX   XX
-  XX   XX   XX   XX   XX   XX   mltp  mmtp  mrtp  XX   XX   XX
+  XX   XX   XX   XX   XX   XX   @mlb  mmtp  mrtp  XX   XX   XX
   XX   XX   XX             C-x            XX   XX   XX
 )
 

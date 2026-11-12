@@ -101,14 +101,14 @@ return {
   keys = {
     -- Fuzzy find
     {
-      "<leader>fm",
+      "<leader>um",
       function()
         Snacks.picker.smart()
       end,
       desc = "Smart Find Files",
     },
     {
-      "<leader>ff",
+      "<leader>uu",
       function()
         Snacks.picker.files({
           args = {
@@ -138,7 +138,7 @@ return {
       desc = "Fuzzy find files",
     },
     {
-      "<leader>fs",
+      "<leader>us",
       function()
         Snacks.picker.grep({
           args = {
@@ -169,7 +169,7 @@ return {
       desc = "Grep",
     },
     {
-      "<leader>fb",
+      "<leader>ub",
       function()
         Snacks.picker.buffers()
       end,
@@ -183,7 +183,7 @@ return {
       desc = "Delete Buffer",
     },
     {
-      "<leader>fc",
+      "<leader>uc",
       function()
         Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
       end,
@@ -264,7 +264,7 @@ return {
     },
     -- Explorer
     {
-      "<leader>ef",
+      "<leader>ee",
       function()
         Snacks.explorer({
           finder = "explorer",

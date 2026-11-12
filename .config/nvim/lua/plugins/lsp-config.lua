@@ -89,6 +89,17 @@ return {
       vim.lsp.config("lua_ls", {
         capabilities = capabilities,
         on_attach = on_attach,
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim", "Snacks" },
+            },
+            workspace = {
+              checkThirdParty = false,
+              library = vim.api.nvim_get_runtime_file("", true),
+            },
+          },
+        },
       })
       vim.lsp.enable("lua_ls")
 
@@ -116,7 +127,6 @@ return {
           "javascriptreact",
           "typescript",
           "typescriptreact",
-          "tsx",
           "vue",
           "svelte",
           "astro",

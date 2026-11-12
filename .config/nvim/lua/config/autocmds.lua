@@ -26,6 +26,37 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
   end,
 })
 
+-- Only insert mode is allowed to use non-English input methods.
+if vim.fn.executable("fcitx5-remote") == 1 then
+  local english_im = "keyboard-us"
+
+  local function set_fcitx_im(im)
+    if im and im ~= "" then
+      vim.fn.system({ "fcitx5-remote", "-s", im })
+    end
+  end
+
+  vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function()
+      set_fcitx_im(english_im)
+    end,
+  })
+
+  vim.api.nvim_create_autocmd({ "FocusGained", "WinEnter", "BufEnter" }, {
+    callback = function()
+      if vim.fn.mode() ~= "i" then
+        set_fcitx_im(english_im)
+      end
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("InsertLeave", {
+    callback = function()
+      set_fcitx_im(english_im)
+    end,
+  })
+end
+
 -- backups
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = vim.api.nvim_create_augroup("better_backup", { clear = true }),
