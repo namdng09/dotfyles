@@ -2,6 +2,7 @@
 # Stow từng package vào đúng thư mục đích (mỗi package để phẳng, không lồng .config/).
 #   ./install.sh                 → stow nvim, tmux, starship
 #   ./install.sh kitty kanata    → stow các package chỉ định
+#   ./install.sh claude          → status line Claude Code (cần jq)
 #   ./install.sh -D nvim         → gỡ link (-R: stow lại)
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -14,7 +15,18 @@ declare -A TARGET=(
   [alacritty]="$HOME/.config/alacritty"
   [kanata]="$HOME/.config/kanata"
   [zmk]="$HOME/.config/zmk"
+  [claude]="$HOME/.claude"
 )
+
+# Claude Code tự ghi lại settings.json (đổi model, theme…) nên không stow file đó,
+# chỉ chèn mục statusLine trỏ tới statusline.sh đã stow.
+setup_claude() {
+  local f="$HOME/.claude/settings.json"
+  command -v jq >/dev/null || { echo "Thiếu jq: tự thêm statusLine vào $f"; return; }
+  [[ -f $f ]] || echo '{}' > "$f"
+  jq '.statusLine = {type: "command", command: "~/.claude/statusline.sh", padding: 0}' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+  echo "claude: đã bật statusLine trong $f"
+}
 
 flags=()
 while [[ $# -gt 0 && $1 == -* ]]; do flags+=("$1"); shift; done
@@ -26,4 +38,5 @@ for p in "${packages[@]}"; do
   [[ -z $t ]] && { echo "Không biết đích của package '$p' (thêm vào TARGET)"; exit 1; }
   mkdir -p "$t"
   stow -v "${flags[@]}" -t "$t" "$p"
+  if [[ $p == claude && " ${flags[*]-} " != *" -D "* ]]; then setup_claude; fi
 done
