@@ -32,7 +32,7 @@ return {
           -- menuone: automatically select the first option of the menu
           -- preview: automatically display the completion candiate as you navigate the menu
           -- noselect: prevent neovim from automatically selecting a completion option while navigating the menu
-          competeopt = "menu,menuone,preview,noselect"
+          completeopt = "menu,menuone,preview,noselect"
         },
         -- setup snippet support based on the active lsp and the current text of the file
         snippet = {
@@ -49,7 +49,7 @@ return {
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           -- show completion suggestions
-          ["<C-Space"] = cmp.mapping.complete(),
+          ["<C-Space>"] = cmp.mapping.complete(),
           -- close completion window
           ["<C-e>"] = cmp.mapping.abort(),
           -- confirm completion, only when you explicitly selected an option

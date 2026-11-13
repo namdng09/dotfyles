@@ -14,11 +14,11 @@ return {
         -- Use web devicons if you have a nerdfont installed
         icons_enabled = true,
         -- Set the theme to dracula, lualine documentation has other themes available as well
-        theme = custom_horizon,
+        theme = auto,
         -- Separate components of lua line with chevrons
         component_separators = { left = "", right = "" },
         -- Separate sections with solid triangles
-        section_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
         -- disable the status line and winbar
         disabled_filetypes = {
           statusline = {},
@@ -100,6 +100,7 @@ return {
             padding = 1, -- Adds padding to the left and right of components.
             -- Padding can be specified to left or right independently, e.g.:
             --   padding = { left = left_padding, right = right_padding }
+            color = { fg = '#ffaa88', gui = 'italic,bold' },
           }
         },
         lualine_b = {},
@@ -127,7 +128,7 @@ return {
               unnamed = '󰏝', -- Text to show for unnamed buffers.
               newfile = '', -- Text to show for newly created file before first write
             },
-            color = { fg = '#ffaa88', gui = 'italic,bold' },
+            -- color = { fg = '#ffaa88', gui = 'italic,bold' },
           }
         },
         lualine_b = {},

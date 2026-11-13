@@ -1,6 +1,7 @@
 (defcfg
   process-unmapped-keys yes
   danger-enable-cmd yes
+  linux-dev-names-exclude ("Lotus-Uinput-Server")
 )
 
 (defsrc
@@ -14,6 +15,8 @@
 (defvar
   tap-time 200
   hold-time 150
+  mouse-speed-slow 300
+  mouse-speed-fast 500
 
   left-hand-keys (
     q w e r t
@@ -47,6 +50,9 @@
   ;; change the base layer between base and mouse
   bsa (layer-switch base)
   msa (layer-switch mouse)
+  mlb (multi mltp @bsa)
+  mmb (multi mmtp @bsa)
+  mrb (multi mrtp @bsa)
 
   ;; tap-hold keys with letters for tap and layer change for hold
   ;; qmo (tap-hold-release-keys $tap-time $hold-time q @msa $left-hand-keys)
@@ -72,6 +78,8 @@
 
   ;; chords
   cap (tap-hold-release 200 200 esc C-a)
+  can (macro C-a n)
+  capn (macro C-a p)
   csv C-S-v
   csc C-S-c
 
@@ -83,8 +91,8 @@
   | S-\
 
   ;; mouse helpers
-  fst (movemouse-speed 900)
-  sow (movemouse-speed 500)
+  fst (movemouse-speed $mouse-speed-fast)
+  sow (movemouse-speed $mouse-speed-slow)
 
   mwhl (mwheel-left 30 120)
   mwhu (mwheel-up 65 120)
@@ -106,39 +114,39 @@
   @grl  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  @qcx @wmk @enu @r   t    y    u    i    o    p    [    ]    lrld
   @cap @a   @s   @dar @fmc g    h    j    k    @l   @;    '    ret
-  lsft z    x    c    @vau b    n    m    ,    .    /    @msa
-  lctl lmet lalt           spc            ralt rmet rctl
+  lsft z    x    c    @vau b    n    m    ,    .    /    rsft
+  lctl lalt lmet           spc            rmet ralt rctl
 )
 
 (deflayer misc
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    S-M-left S-M-down S-M-up S-M-right _    _    _    _
-  _    _    _    _    _    _    C-bspc bspc S-ret esc A-F4 _    _
-  _    _    _    _    _    _    A-e  del  M-pgup M-pgdn _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    C-bspc bspc S-ret _     _   _    _
+  _    _    _    _    _    _    A-'  del  M-pgup M-pgdn _    _
   _    _    _              ret            _    _    _
 )
 
 (deflayer arrows
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    home pgdn pgup end  mftp _    _    _
+  _    _    _    _    _    _    M-S-h M-S-j M-S-k M-S-l mftp _    _    _
   _    _    _    _    _    _    left down up   rght mbtp _    _
-  _    _    _    _    _    _    C-S-tab C-tab  A-esc A-S-tab _    _
+  _    _    _    _    _    _    C-S-tab C-tab  M-h M-l _    _
   _    _    _              C-v            _    _    _
 )
 
 (deflayer marks
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    @{   @}   `    @~   [    _    _    _
-  _    _    _    _    _    _    -    =    @sd  +    ]    _    _
-  _    _    _    _    _    _    S-9  S-0  \    @|   _    _
+  _    _    _    _    _    _    -    =    @sd  +    S-;  _    _
+  _    _    _    _    _    _    S-9  S-0  \    @|   ]    _
   _    _    _              C-c            _    _    _
 )
 
 (deflayer audios
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    pp   prev next _    _    _    _    _
+  _    _    _    _    _    _    home pgdn pgup end  _    _    _    _
   _    _    _    _    _    _    mute voldwn volu _    _    _    _
-  _    _    _    _    _    _    @mwhd @mwhu @mwhl @mphr _    _
+  _    _    _    _    _    _    pp   prev next _    _    _
   _    _    _              _              _    _    _
 )
 
@@ -146,7 +154,7 @@
   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
   XX   XX   XX   XX   XX   XX   @mwhl @mwhd @mwhu @mphr mftp XX   XX   XX
   XX   @mow @sow @fst mlft XX   @mml  @mmm  @mmu  @mmr  mbtp XX   XX
-  XX   XX   XX   XX   XX   XX   mltp  mmtp  mrtp  XX   XX   @bsa
+  XX   XX   XX   XX   XX   XX   @mlb  mmtp  mrtp  mltp XX   @bsa
   XX   XX   XX             C-x            XX   XX   XX
 )
 
@@ -154,23 +162,23 @@
   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
   XX   XX   XX   XX   XX   XX   @mwhl @mwhd @mwhu @mphr mftp XX   XX   XX
   XX   XX   XX   @fst mlft XX   @mmlm  @mmmm  @mmum  @mmrm  mbtp XX   XX
-  XX   XX   XX   XX   XX   XX   mltp  mmtp  mrtp  XX   XX   XX
+  XX   XX   XX   XX   XX   XX   @mlb  mmtp  mrtp  XX   XX   XX
   XX   XX   XX             C-x            XX   XX   XX
 )
 
 (deflayer number
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    C-S-q _    7    8    9    _    _    _    _    _
-  _    _    _    _    M-S-s _    4    5    6    0    _    _    _
-  _    _    _    _    _    _    1    2    3    _    _    _
+  _    _    _    _    M-v _   _     7    8    9    _    _    _    _
+  _    _    _    _    M-S-s _    _    4    5    6    0    _    _
+  _    _    _    _    _    _    _    1    2    3    _    _
   _    _    _              C-a            _    _    _
 )
 
 (deflayer newlayer
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    @mwhd @mwhu _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    M-A-pgup M-pgup M-pgdn M-A-pgdn    _    _    _    _
+  _    _    _    _    _    _    @mwhl @mwhd @mwhu @mphr _    _    _
+  _    _    _    _    _    _    @capn @can  _    _    _    _
   _    _    _              C-x            _    _    _
 )
 

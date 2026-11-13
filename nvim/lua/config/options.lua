@@ -37,6 +37,22 @@ opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or 
 -- clipboard
 vim.opt.clipboard = "unnamedplus" -- use system clipboard as default register
 
+-- WSL / SSH: không có xclip / wl-copy → copy ra clipboard máy qua OSC 52
+-- (Windows Terminal, kitty, alacritty, tmux với set-clipboard on đều nhận).
+-- Terminal không cho đọc clipboard qua OSC 52 nên `p` dán từ register của nvim;
+-- dán từ Windows vào nvim: Ctrl+Shift+V.
+if vim.fn.has("wsl") == 1 or vim.env.SSH_TTY then
+  local osc52 = require("vim.ui.clipboard.osc52")
+  local function paste()
+    return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
+  end
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = { ["+"] = osc52.copy("+"), ["*"] = osc52.copy("*") },
+    paste = { ["+"] = paste, ["*"] = paste },
+  }
+end
+
 -- split windows
 opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom
