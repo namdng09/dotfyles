@@ -166,7 +166,7 @@ draw() {
   printf '%sdotfyles installer%s  %s(%s · %s%s)%s\n\n' "$c_bold" "$c_off" "$c_dim" "$OS" "$PM" "$([[ $WSL == 1 ]] && echo ' · WSL')" "$c_off"
   for ((i = 0; i < N; i++)); do
     [[ ${SEL[i]} == 1 ]] && mark="$c_grn[x]$c_off" || mark="[ ]"
-    [[ $i == "$CUR" ]] && ptr="$c_cyn❯$c_off" || ptr=" "
+    [[ $i == "$CUR" ]] && ptr="${c_cyn}❯${c_off}" || ptr=" "
     printf ' %s %s %-10s %s%s%s\n' "$ptr" "$mark" "$(id_of "$i")" "$c_dim" "$(desc_of "$i")" "$c_off"
   done
   printf '\n%s↑/↓ j/k di chuyển · Space chọn · a tất cả · n bỏ hết · Enter cài · q thoát%s\n' "$c_dim" "$c_off"

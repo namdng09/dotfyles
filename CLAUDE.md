@@ -33,6 +33,7 @@ Thêm package mới: thêm vào `target()`, thêm một dòng vào `ITEMS` (`id|
 
 - **Phải chạy được với bash 3.2** (mặc định trên macOS): không `declare -A`, `mapfile`, `${x,,}`, `read -N`, `read -t` số lẻ.
   Mảng rỗng dưới `set -u` thì mở rộng bằng `${arr[@]+"${arr[@]}"}`.
+- Biến đứng sát ký tự không phải ASCII (`❯`, `→`, chữ có dấu…) phải viết `${var}`: bash 3.2 đọc các byte UTF-8 thành một phần tên biến → `unbound variable`.
 - Script dùng `set -e`: không viết `((x = …))` đứng một mình vì kết quả bằng 0 sẽ thoát script, dùng `x=$(( … ))`.
 - Arch: luôn `pacman -Syu`, không `-Sy`/`-S` riêng (database cũ → lỗi 404 file `.sig`, hoặc nâng cấp nửa vời).
 - Config phải chạy được trên cả Linux và macOS: kiểm tra công cụ trước khi dùng (`type -q` trong fish, `command -v` trong bash),
