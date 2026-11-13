@@ -82,6 +82,10 @@ if [[ $# -gt 0 || ${#flags[@]} -gt 0 ]]; then
   command -v stow >/dev/null || die "Thiếu GNU stow (macOS: brew install stow, Arch: sudo pacman -S stow, Ubuntu: sudo apt install stow)"
   [[ $# -gt 0 ]] && packages=("$@") || packages=(nvim tmux starship fish)
   for p in "${packages[@]}"; do
+    # Không cờ hoặc chỉ -R: stow_pkg (sao lưu file thật đang chặn); cờ khác (-D…) chuyển thẳng cho stow
+    case " ${flags[*]-} " in
+      "  "|" -R ") stow_pkg "$p"; continue ;;
+    esac
     t=$(target "$p")
     [[ -z $t ]] && die "Không biết đích của package '$p' (thêm vào target())"
     mkdir -p "$t"

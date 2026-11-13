@@ -25,6 +25,7 @@ Không bao giờ dùng `starship preset … -o ~/.config/starship.toml`, vì l�
 - `./install.sh`: menu checkbox → cài công cụ (brew / `pacman -Syu --needed` / apt) → stow.
   File thật đang chặn stow được đổi tên thành `*.bak.<thời gian>`, không bị xoá.
 - `./install.sh <pkg>…`, `-D`, `-R`: chế độ cũ, chỉ stow, không cài công cụ.
+  Không cờ hoặc `-R` cũng sao lưu file thật thành `*.bak.<thời gian>` như menu; `-D` và cờ khác chuyển thẳng cho stow.
 - `--defaults` (không menu), `--dry-run` (chỉ in lệnh).
 
 Thêm package mới: thêm vào `target()`, thêm một dòng vào `ITEMS` (`id|mặc định|mô tả`), thêm gói vào `deps()` cho từng trình quản lý gói.
