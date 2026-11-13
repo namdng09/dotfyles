@@ -5,7 +5,7 @@ for brew in /opt/homebrew/bin/brew /usr/local/bin/brew
         break
     end
 end
-fish_add_path ~/.local/bin
+fish_add_path ~/.local/bin ~/.opencode/bin
 set -g fish_greeting
 
 # Chỉ trên WSL: mở link bằng trình duyệt của Windows
