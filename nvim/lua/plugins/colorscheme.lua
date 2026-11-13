@@ -1,25 +1,15 @@
 return {
   {
-    "f-person/auto-dark-mode.nvim",
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
     priority = 1000,
-    init = function()
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
       vim.cmd.colorscheme "catppuccin"
     end,
     opts = {
-      update_interval = 1000,
-      set_dark_mode = function()
-        vim.api.nvim_set_option_value("background", "dark", { scope = "global" })
-      end,
-      set_light_mode = function()
-        vim.api.nvim_set_option_value("background", "light", { scope = "global" })
-      end,
-    },
-  },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    opts = {
-      flavour = "auto",
+      flavour = "mocha",
       background = {
         light = 'latte',
         dark = 'mocha',
