@@ -13,7 +13,7 @@ Mỗi thư mục cấp 1 là một **package stow phẳng**: file nằm thẳng 
 | `tmux` | `~/.config/tmux` | `tmux/plugins/` do TPM tải về, đã gitignore |
 | `fish` | `~/.config/fish` | chỉ `config.fish`; **không** đưa `fish_variables` vào repo (fish tự ghi, khác nhau giữa các máy) |
 | `starship` | `~/.config` | `starship.toml` là **symlink** tới theme đang dùng |
-| `kitty`, `alacritty`, `kanata`, `zmk` | `~/.config/<tên>` | |
+| `kitty`, `alacritty`, `kanata`, `zmk` | `~/.config/<tên>` | kanata trên WSL: `windows.kbd` được **chép** (không link) sang `%APPDATA%\kanata\kanata.kbd` cho kanata phía Windows |
 | `claude` | `~/.claude` | chỉ `statusline.sh`; `settings.json` **không** stow vì Claude Code tự ghi lại, `install.sh` chèn `statusLine` bằng jq |
 
 Starship: theme đang dùng = file mà `starship/starship.toml` trỏ tới (hiện là `catppuccin-powerline.toml`;

@@ -1,0 +1,193 @@
+;; Kanata cho Windows (bàn phím AULA F75 Max), tách từ main.kbd.
+;; - Hàng dưới giữ kiểu Windows: Ctrl Win Alt Space.
+;; - Phím tắt Hyprland đổi sang Windows: chuyển desktop ảo, snap cửa sổ, chuyển cửa sổ sang màn hình khác.
+;; - Bỏ toàn bộ điều khiển chuột cho nhẹ, cần thì chép lại từ main.kbd.
+;; - Chuyển bộ phím: giữ ` rồi bấm 1 = qwerty gốc, 2 = qwerty có gán phím (mặc định khi khởi động), 3 = dvorak có gán phím.
+;; - Tổ hợp thoát khẩn cấp của kanata: lctl + spc + esc.
+;;
+;; File này được install.sh chép sang %APPDATA%\kanata\kanata.kbd (Windows đọc bản chép, không đọc qua \\wsl$).
+
+(defcfg
+  process-unmapped-keys yes
+  ;; Unikey (Telex) nuốt phím dấu (j, s, f, r, x) sau khi kanata gửi ra → kanata báo
+  ;; "Unexpected keycode is pressed in kanata but not in Windows" liên tục. Lỗi vô hại nên tắt thông báo
+  ;; (chỉ có tác dụng với bản gui). Muốn xem lỗi thật thì chạy bản tty để đọc log.
+  notify-error no
+)
+
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+(defvar
+  tap-time 200
+  hold-time 150
+
+  left-hand-keys (
+    q w e r t
+    a s d f g
+    z x c v b
+  )
+  right-hand-keys (
+    y u i o p
+    h j k l ;
+    n m , . /
+  )
+)
+
+(defalias
+  ;; giữ để bật layer tạm
+  msc (layer-toggle misc)
+  arr (layer-toggle arrows)
+  mrk (layer-toggle marks)
+  aud (layer-toggle audios)
+  num (layer-toggle number)
+  lay (layer-toggle layers)
+  ctx (layer-toggle desktop)
+
+  ;; đổi bộ phím chính (trong layer `layers`: 1, 2, 3)
+  qwr (layer-switch qwerty)
+  bsa (layer-switch base)
+  dvk (layer-switch dvorak)
+
+  ;; giữ ` để vào layer chọn bộ phím
+  grl (tap-hold-release 200 200 grv @lay)
+
+  ;; caps: bấm = esc, giữ = C-a (prefix tmux)
+  cap (tap-hold-release 200 200 esc C-a)
+  can (macro C-a n)
+  capn (macro C-a p)
+  csv C-S-v
+  csc C-S-c
+
+  ;; ── qwerty có gán phím (layer base): bấm ra chữ qwerty, giữ ra mod/layer ──
+  qcx (tap-hold-release-keys $tap-time $hold-time q @ctx $left-hand-keys)
+  wmk (tap-hold-release-keys $tap-time $hold-time w @mrk $left-hand-keys)
+  enu (tap-hold-release-keys $tap-time $hold-time e @num $left-hand-keys)
+  r   (tap-hold-release-keys $tap-time $hold-time r lalt $left-hand-keys)
+  a   (tap-hold-release-keys $tap-time $hold-time a lctl $left-hand-keys)
+  s   (tap-hold-release-keys $tap-time $hold-time s lsft $left-hand-keys)
+  dar (tap-hold-release-keys $tap-time $hold-time d @arr $left-hand-keys)
+  fmc (tap-hold-release-keys $tap-time $hold-time f @msc $left-hand-keys)
+  vau (tap-hold-release-keys $tap-time $hold-time v @aud $left-hand-keys)
+  l   (tap-hold-release-keys $tap-time $hold-time l rsft $right-hand-keys)
+  ;   (tap-hold-release-keys $tap-time $hold-time ; rctl $right-hand-keys)
+
+  ;; ── dvorak có gán phím: cùng vị trí giữ như base, bấm ra chữ dvorak ──
+  dq  (tap-hold-release-keys $tap-time $hold-time ' @ctx $left-hand-keys)
+  dw  (tap-hold-release-keys $tap-time $hold-time , @mrk $left-hand-keys)
+  de  (tap-hold-release-keys $tap-time $hold-time . @num $left-hand-keys)
+  dr  (tap-hold-release-keys $tap-time $hold-time p lalt $left-hand-keys)
+  da  (tap-hold-release-keys $tap-time $hold-time a lctl $left-hand-keys)
+  ds  (tap-hold-release-keys $tap-time $hold-time o lsft $left-hand-keys)
+  dd  (tap-hold-release-keys $tap-time $hold-time e @arr $left-hand-keys)
+  df  (tap-hold-release-keys $tap-time $hold-time u @msc $left-hand-keys)
+  dv  (tap-hold-release-keys $tap-time $hold-time k @aud $left-hand-keys)
+  dl  (tap-hold-release-keys $tap-time $hold-time n rsft $right-hand-keys)
+  d;  (tap-hold-release-keys $tap-time $hold-time s rctl $right-hand-keys)
+
+  ;; phím có shift
+  { S-[
+  } S-]
+  ~ S-`
+  sd S--
+  | S-\
+
+  ;; Windows: desktop ảo / màn hình
+  dkl C-M-left   ;; sang desktop ảo bên trái
+  dkr C-M-rght   ;; sang desktop ảo bên phải
+  mnl M-S-left   ;; đưa cửa sổ sang màn hình bên trái
+  mnr M-S-rght   ;; đưa cửa sổ sang màn hình bên phải
+)
+
+;; Layer đầu tiên = layer khi kanata khởi động
+(deflayer base
+  @grl 1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  @qcx @wmk @enu @r   t    y    u    i    o    p    [    ]    lrld
+  @cap @a   @s   @dar @fmc g    h    j    k    @l   @;   '    ret
+  lsft z    x    c    @vau b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+(deflayer dvorak
+  @grl 1    2    3    4    5    6    7    8    9    0    [    ]    bspc
+  tab  @dq  @dw  @de  @dr  y    f    g    c    r    l    /    =    lrld
+  @cap @da  @ds  @dd  @df  i    d    h    t    @dl  @d;  -    ret
+  lsft ;    q    j    @dv  x    b    m    w    v    z    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+(deflayer qwerty
+  @grl 1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+;; giữ ` : 1 = qwerty gốc, 2 = qwerty có gán phím, 3 = dvorak có gán phím
+(deflayer layers
+  _    @qwr @bsa @dvk _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+;; giữ f (dvorak: u)
+(deflayer misc
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    C-bspc bspc S-ret _  _    _    _
+  _    _    _    _    _    _    A-'  del  @dkl @dkr _    _
+  _    _    _              ret            _    _    _
+)
+
+;; giữ d (dvorak: e). y u i o = snap cửa sổ (Win + mũi tên)
+(deflayer arrows
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    M-left M-down M-up M-rght _ _    _    _
+  _    _    _    _    _    _    left down up   rght _    _    _
+  _    _    _    _    _    _    C-S-tab C-tab @dkl @dkr _ _
+  _    _    _              C-v            _    _    _
+)
+
+;; giữ w (dvorak: ,)
+(deflayer marks
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    @{   @}   `    @~   [    _    _    _
+  _    _    _    _    _    _    -    =    @sd  +    S-;  _    _
+  _    _    _    _    _    _    S-9  S-0  \    @|   ]    _
+  _    _    _              C-c            _    _    _
+)
+
+;; giữ v (dvorak: k)
+(deflayer audios
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    home pgdn pgup end  _    _    _    _
+  _    _    _    _    _    _    mute voldwn volu _    _    _    _
+  _    _    _    _    _    _    pp   prev next _    _    _
+  _    _    _              _              _    _    _
+)
+
+;; giữ e (dvorak: .). r = Win+V (lịch sử clipboard), f = Win+Shift+S (chụp màn hình)
+(deflayer number
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    M-v  _    _    7    8    9    _    _    _    _
+  _    _    _    _    M-S-s _   _    4    5    6    0    _    _
+  _    _    _    _    _    _    _    1    2    3    _    _
+  _    _    _              C-a            _    _    _
+)
+
+;; giữ q (dvorak: '). y o = cửa sổ sang màn hình trái/phải, u i = desktop ảo trái/phải
+(deflayer desktop
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    @mnl @dkl @dkr @mnr _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    @capn @can _    _    _    _
+  _    _    _              C-x            _    _    _
+)

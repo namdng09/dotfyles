@@ -43,6 +43,22 @@ setup_claude() {
   echo "claude: đã bật statusLine trong $f"
 }
 
+# Trên WSL, kanata chạy phía Windows. Chép windows.kbd sang %APPDATA%\kanata\kanata.kbd
+# (không cho Windows đọc qua \\wsl$ vì lúc khởi động máy WSL chưa chạy).
+setup_kanata_windows() {
+  grep -qi microsoft /proc/version 2>/dev/null || return 0
+  command -v cmd.exe >/dev/null && command -v wslpath >/dev/null \
+    || { warn "Không gọi được cmd.exe/wslpath: tự chép kanata/windows.kbd sang %APPDATA%\\kanata\\kanata.kbd"; return 0; }
+  local appdata dir
+  appdata=$(cd /mnt/c && cmd.exe /c 'echo %APPDATA%' 2>/dev/null | tr -d '\r') || true
+  [[ -n $appdata && $appdata != '%APPDATA%' ]] \
+    || { warn "Không đọc được %APPDATA% của Windows: tự chép kanata/windows.kbd"; return 0; }
+  dir="$(wslpath -u "$appdata")/kanata"
+  say "kanata (Windows): chép windows.kbd → ${dir}/kanata.kbd"
+  run mkdir -p "$dir"
+  run cp kanata/windows.kbd "$dir/kanata.kbd"
+}
+
 # Chuyển file thật đang chặn stow sang *.bak.<thời gian> rồi stow lại (chạy lại nhiều lần vẫn an toàn).
 stow_pkg() {
   local p=$1 t f conflicts
@@ -62,6 +78,7 @@ stow_pkg() {
   fi
   run stow -v -R -t "$t" "$p"
   [[ $p == claude ]] && setup_claude
+  [[ $p == kanata ]] && setup_kanata_windows
   return 0
 }
 
@@ -122,7 +139,7 @@ ITEMS=(
   "kitty|0|kitty terminal + config"
   "alacritty|0|Alacritty terminal + config"
   "claude|0|Claude Code status line (cần jq)"
-  "kanata|0|Kanata (bàn phím home-row mods) — chỉ link config"
+  "kanata|0|Kanata (bàn phím home-row mods) — chỉ link config (WSL: chép thêm windows.kbd sang Windows)"
   "zmk|0|ZMK keymap (Corne) — chỉ link config"
 )
 # Trên WSL font/terminal phải cài phía Windows
