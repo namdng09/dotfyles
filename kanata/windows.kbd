@@ -2,7 +2,7 @@
 ;; - Hàng dưới giữ kiểu Windows: Ctrl Win Alt Space.
 ;; - Phím tắt Hyprland đổi sang Windows: chuyển desktop ảo, snap cửa sổ, chuyển cửa sổ sang màn hình khác.
 ;; - Bỏ toàn bộ điều khiển chuột cho nhẹ, cần thì chép lại từ main.kbd.
-;; - Chuyển bộ phím: giữ ` rồi bấm 1 = qwerty gốc, 2 = qwerty có gán phím (mặc định khi khởi động), 3 = dvorak có gán phím.
+;; - Chuyển bộ phím: giữ ` rồi bấm 1 = qwerty gốc, 2 = qwerty có gán phím, 3 = dvorak có gán phím (mặc định khi khởi động).
 ;; - Tổ hợp thoát khẩn cấp của kanata: lctl + spc + esc.
 ;;
 ;; File này được install.sh chép sang %APPDATA%\kanata\kanata.kbd (Windows đọc bản chép, không đọc qua \\wsl$).
@@ -44,10 +44,11 @@
   msc (layer-toggle misc)
   arr (layer-toggle arrows)
   mrk (layer-toggle marks)
-  aud (layer-toggle audios)
   num (layer-toggle number)
   lay (layer-toggle layers)
   ctx (layer-toggle desktop)
+  thb (layer-toggle thumb)   ;; giữ Alt phải (mode 2, 3)
+  tla (layer-toggle lthumb)  ;; giữ Alt trái (mode 2, 3). Alt vẫn có khi giữ r (home-row mod)
 
   ;; đổi bộ phím chính (trong layer `layers`: 1, 2, 3)
   qwr (layer-switch qwerty)
@@ -73,7 +74,6 @@
   s   (tap-hold-release-keys $tap-time $hold-time s lsft $left-hand-keys)
   dar (tap-hold-release-keys $tap-time $hold-time d @arr $left-hand-keys)
   fmc (tap-hold-release-keys $tap-time $hold-time f @msc $left-hand-keys)
-  vau (tap-hold-release-keys $tap-time $hold-time v @aud $left-hand-keys)
   l   (tap-hold-release-keys $tap-time $hold-time l rsft $right-hand-keys)
   ;   (tap-hold-release-keys $tap-time $hold-time ; rctl $right-hand-keys)
 
@@ -86,9 +86,13 @@
   ds  (tap-hold-release-keys $tap-time $hold-time o lsft $left-hand-keys)
   dd  (tap-hold-release-keys $tap-time $hold-time e @arr $left-hand-keys)
   df  (tap-hold-release-keys $tap-time $hold-time u @msc $left-hand-keys)
-  dv  (tap-hold-release-keys $tap-time $hold-time k @aud $left-hand-keys)
   dl  (tap-hold-release-keys $tap-time $hold-time n rsft $right-hand-keys)
   d;  (tap-hold-release-keys $tap-time $hold-time s rctl $right-hand-keys)
+
+  ;; Unikey (Telex): khi kanata gửi nhấn/nhả w tách rời (phím gõ thẳng, không tap-hold), Unikey nuốt lần nhấn,
+  ;; trạng thái lệch nên "ww" không hoàn tác về "w" mà ra "ư" mãi. macro gửi nhấn + nhả liền một lượt,
+  ;; giống tap-hold ở layer base. Dùng ở mode 1 (qwerty) và mode 3 (dvorak: w nằm ở phím ,).
+  tw (macro w)
 
   ;; phím có shift
   { S-[
@@ -100,30 +104,35 @@
   ;; Windows: desktop ảo / màn hình
   dkl C-M-left   ;; sang desktop ảo bên trái
   dkr C-M-rght   ;; sang desktop ảo bên phải
+
+  ;; Unikey: chuyển Việt/Anh (phím tắt Ctrl+Shift của Unikey).
+  ;; Unikey chỉ chuyển khi Ctrl+Shift được nhấn rồi nhả mà không kèm phím nào khác,
+  ;; nên gửi nhấn + nhả liền một lượt bằng macro.
+  vn (macro C-lsft)
   mnl M-S-left   ;; đưa cửa sổ sang màn hình bên trái
   mnr M-S-rght   ;; đưa cửa sổ sang màn hình bên phải
 )
 
 ;; Layer đầu tiên = layer khi kanata khởi động
-(deflayer base
-  @grl 1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  @qcx @wmk @enu @r   t    y    u    i    o    p    [    ]    lrld
-  @cap @a   @s   @dar @fmc g    h    j    k    @l   @;   '    ret
-  lsft z    x    c    @vau b    n    m    ,    .    /    rsft
-  lctl lmet lalt           spc            ralt rmet rctl
-)
-
 (deflayer dvorak
   @grl 1    2    3    4    5    6    7    8    9    0    [    ]    bspc
   tab  @dq  @dw  @de  @dr  y    f    g    c    r    l    /    =    lrld
   @cap @da  @ds  @dd  @df  i    d    h    t    @dl  @d;  -    ret
-  lsft ;    q    j    @dv  x    b    m    w    v    z    rsft
-  lctl lmet lalt           spc            ralt rmet rctl
+  lsft ;    q    j    k    x    b    m    @tw  v    z    rsft
+  lctl lmet @tla           spc            @thb rmet rctl
+)
+
+(deflayer base
+  @grl 1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  @qcx @wmk @enu @r   t    y    u    i    o    p    [    ]    lrld
+  @cap @a   @s   @dar @fmc g    h    j    k    @l   @;   '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet @tla           spc            @thb rmet rctl
 )
 
 (deflayer qwerty
   @grl 1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  tab  q    @tw  e    r    t    y    u    i    o    p    [    ]    \
   caps a    s    d    f    g    h    j    k    l    ;    '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
   lctl lmet lalt           spc            ralt rmet rctl
@@ -138,22 +147,23 @@
   _    _    _              _              _    _    _
 )
 
-;; giữ f (dvorak: u)
+;; giữ f (dvorak: u). n = chuyển Việt/Anh trong Unikey
 (deflayer misc
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    C-bspc bspc S-ret _  _    _    _
-  _    _    _    _    _    _    A-'  del  @dkl @dkr _    _
+  _    _    _    _    _    _    @vn  del  @dkl @dkr _    _
   _    _    _              ret            _    _    _
 )
 
-;; giữ d (dvorak: e). y u i o = snap cửa sổ (Win + mũi tên)
+;; giữ d (dvorak: e). u i = tmux C-a p / C-a n, h j k l = mũi tên,
+;; Alt trái = Back, Alt phải = Forward (trình duyệt)
 (deflayer arrows
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    M-left M-down M-up M-rght _ _    _    _
+  _    _    _    _    _    _    _    @capn @can _    _    _    _    _
   _    _    _    _    _    _    left down up   rght _    _    _
-  _    _    _    _    _    _    C-S-tab C-tab @dkl @dkr _ _
-  _    _    _              C-v            _    _    _
+  _    _    _    _    _    _    _    C-S-tab C-tab _    _    _
+  _    _    A-left         C-v            A-rght _  _
 )
 
 ;; giữ w (dvorak: ,)
@@ -163,15 +173,6 @@
   _    _    _    _    _    _    -    =    @sd  +    S-;  _    _
   _    _    _    _    _    _    S-9  S-0  \    @|   ]    _
   _    _    _              C-c            _    _    _
-)
-
-;; giữ v (dvorak: k)
-(deflayer audios
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    home pgdn pgup end  _    _    _    _
-  _    _    _    _    _    _    mute voldwn volu _    _    _    _
-  _    _    _    _    _    _    pp   prev next _    _    _
-  _    _    _              _              _    _    _
 )
 
 ;; giữ e (dvorak: .). r = Ctrl+` (mở Ditto, lịch sử clipboard), f = Win+Shift+S (chụp màn hình)
@@ -188,6 +189,30 @@
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    @mnl @dkl @dkr @mnr _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    @capn @can _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _              C-x            _    _    _
+)
+
+;; giữ Alt phải (chỉ mode 2 và 3; mode 1 giữ nguyên Alt phải).
+;; Layer này giữ bằng ngón cái, không phải tap-hold, nên dùng được phím của CẢ HAI tay. Tự thêm phím vào đây.
+(deflayer thumb
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+;; giữ Alt trái (chỉ mode 2 và 3; mode 1 giữ nguyên Alt trái).
+;; Alt thật vẫn còn: giữ r (dvorak: p) là lalt, ví dụ giữ r + tab = Alt+Tab.
+;; Thay layer audios cũ (giữ x). Phím nằm bên tay trái, chữ bên trái dấu = là phím qwerty thật:
+;;   q w e r = home, pgdn, pgup, end
+;;   s d f   = tắt tiếng, giảm, tăng âm lượng
+;;   x c v   = phát/tạm dừng, bài trước, bài sau
+(deflayer lthumb
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      home   pgdn   pgup   end    _      _      _      _      _      _      _      _      _
+  _      _      mute   voldwn volu   _      _      _      _      _      _      _      _
+  _      _      pp     prev   next   _      _      _      _      _      _      _
+  _      _      _                    _                    _      _      _
 )

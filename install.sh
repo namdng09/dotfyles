@@ -57,6 +57,33 @@ setup_kanata_windows() {
   say "kanata (Windows): chép windows.kbd → ${dir}/kanata.kbd"
   run mkdir -p "$dir"
   run cp kanata/windows.kbd "$dir/kanata.kbd"
+  check_kanata_windows "${dir%/AppData/Roaming/kanata}" "$appdata\\kanata\\kanata.kbd"
+}
+
+# Kiểm tra cú pháp config bằng kanata.exe của Windows. Bản gui không báo lỗi khi reload
+# (đã tắt notify-error), nên config lỗi sẽ bị bỏ qua âm thầm; kiểm tra ở đây để biết ngay.
+# Tìm exe: biến KANATA_EXE, rồi C:\Tools\kanata, Downloads của Windows, <ổ>:\Downloads. Ưu tiên bản tty (in ra lỗi).
+check_kanata_windows() {
+  local win_home=$1 cfg=$2 exe="${KANATA_EXE:-}" d out
+  if [[ -z $exe ]]; then
+    for d in /mnt/c/Tools/kanata "$win_home/Downloads" /mnt/?/Downloads "$win_home/AppData/Local/Programs"; do
+      [[ -d $d ]] || continue
+      exe=$(find "$d" -maxdepth 2 -iname 'kanata*tty*.exe' 2>/dev/null | head -n1)
+      [[ -z $exe ]] && exe=$(find "$d" -maxdepth 2 -iname 'kanata*.exe' 2>/dev/null | head -n1)
+      [[ -n $exe ]] && break
+    done
+  fi
+  if [[ -z $exe ]]; then
+    warn "Không tìm thấy kanata.exe để kiểm tra config (đặt KANATA_EXE=/mnt/c/…/kanata.exe để chỉ định)"
+    return 0
+  fi
+  if [[ $DRY == 1 ]]; then run "$exe" --check --cfg "$cfg"; return 0; fi
+  if out=$(cd /mnt/c && "$exe" --check --cfg "$cfg" 2>&1); then
+    say "kanata (Windows): config hợp lệ (${exe##*/}). Bấm lrld hoặc Reload ở icon khay để nạp."
+  else
+    printf '%s\n' "$out" | tr -d '\r' | sed 's/\x1b\[[0-9;]*m//g' | grep -v '\[INFO\]' >&2 || true
+    warn "kanata (Windows): config LỖI, kanata sẽ giữ bản cũ khi reload. Sửa kanata/windows.kbd rồi chạy lại."
+  fi
 }
 
 # Chuyển file thật đang chặn stow sang *.bak.<thời gian> rồi stow lại (chạy lại nhiều lần vẫn an toàn).
