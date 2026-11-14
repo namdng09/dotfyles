@@ -25,6 +25,19 @@ if status is-interactive
     end
 
     type -q zoxide; and zoxide init fish | source
+
+    # Starship: mỗi máy một theme để nhìn là biết đang ở đâu (nhất là khi SSH qua lại).
+    # WSL = catppuccin, macOS = gruvbox; máy khác dùng ~/.config/starship.toml (symlink theme mặc định).
+    # Thiếu file theme (chưa stow lại) thì cũng quay về starship.toml.
+    set -l starship_theme
+    if set -q WSL_DISTRO_NAME
+        set starship_theme catppuccin-powerline
+    else if test (uname) = Darwin
+        set starship_theme gruvbox-rainbow
+    end
+    if set -q starship_theme[1]; and test -f ~/.config/$starship_theme.toml
+        set -gx STARSHIP_CONFIG ~/.config/$starship_theme.toml
+    end
     type -q starship; and starship init fish | source
 
     type -q eza; and alias ls 'eza --icons'
