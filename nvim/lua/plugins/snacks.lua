@@ -162,14 +162,14 @@ return {
   keys = {
     -- Fuzzy find
     {
-      "<leader>fm",
+      "<leader>um",
       function()
         Snacks.picker.smart()
       end,
       desc = "Smart Find Files",
     },
     {
-      "<leader>ff",
+      "<leader>uu",
       function()
         Snacks.picker.files({
           args = {
@@ -178,15 +178,17 @@ return {
             "--hidden",
 
             -- Exclude folders
+            "--exclude", "publish",
             "--exclude", "node_modules",
             "--exclude", "target",
-            "--exclude", "dist", }
+            "--exclude", "dist",
+          }
         })
       end,
       desc = "Fuzzy find files",
     },
     {
-      "<leader>fs",
+      "<leader>us",
       function()
         Snacks.picker.grep({
           args = {
@@ -195,29 +197,17 @@ return {
             "--hidden",
 
             -- Exclude common folders
+            "--glob", "!publish/**",
             "--glob", "!node_modules/**",
             "--glob", "!target/**",
             "--glob", "!dist/**",
-
-            -- Flutter & platform folders exclude
-            "--glob", "!android/**",
-            "--glob", "!.dart_tool/**",
-            "--glob", "!.idea/**",
-            "--glob", "!build/**",
-            "--glob", "!ios/**",
-            "--glob", "!macos/**",
-            "--glob", "!web/**",
-            "--glob", "!windows/**",
-            "--glob", "!linux/**",
-            "--glob", "!.next/**",
-            "--glob", "!__MACOSX/**",
           },
         })
       end,
       desc = "Grep",
     },
     {
-      "<leader>fb",
+      "<leader>ub",
       function()
         Snacks.picker.buffers()
       end,
@@ -231,7 +221,7 @@ return {
       desc = "Delete Buffer",
     },
     {
-      "<leader>fc",
+      "<leader>uc",
       function()
         Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
       end,

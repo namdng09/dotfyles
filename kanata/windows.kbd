@@ -100,6 +100,7 @@
   ~ S-`
   sd S--
   | S-\
+  ? S-/
 
   ;; Windows: desktop ảo / màn hình
   dkl C-M-left   ;; sang desktop ảo bên trái
@@ -172,7 +173,7 @@
   _    _    _    _    _    _    @{   @}   `    @~   [    _    _    _
   _    _    _    _    _    _    -    =    @sd  +    S-;  _    _
   _    _    _    _    _    _    S-9  S-0  \    @|   ]    _
-  _    _    _              C-c            _    _    _
+  _    _    @?             C-c            /    _    _
 )
 
 ;; giữ e (dvorak: .). r = Ctrl+` (mở Ditto, lịch sử clipboard), f = Win+Shift+S (chụp màn hình)
