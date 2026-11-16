@@ -9,9 +9,12 @@
 
 (defcfg
   process-unmapped-keys yes
-  ;; Unikey (Telex) nuốt phím dấu (j, s, f, r, x) sau khi kanata gửi ra → kanata báo
-  ;; "Unexpected keycode is pressed in kanata but not in Windows" liên tục. Lỗi vô hại nên tắt thông báo
-  ;; (chỉ có tác dụng với bản gui). Muốn xem lỗi thật thì chạy bản tty để đọc log.
+  ;; Unikey (Telex) nuốt lần nhấn của phím dấu sau khi kanata gửi ra. Mặc định kanata so trạng thái phím
+  ;; với Windows (GetAsyncKeyState), thấy lệch thì báo "Unexpected keycode is pressed in kanata but not in
+  ;; Windows" và XOÁ trạng thái phím đó → Unikey không nhận được lần gõ sau đúng cách, nên "rr", "ww", "vv"…
+  ;; không hoàn tác được dấu. Tắt cơ chế đồng bộ này (xem windows-sync-keystates trong docs kanata).
+  windows-sync-keystates none
+  ;; Thông báo lỗi của bản gui (bản tty vẫn in log).
   notify-error no
 )
 
@@ -89,10 +92,12 @@
   dl  (tap-hold-release-keys $tap-time $hold-time n rsft $right-hand-keys)
   d;  (tap-hold-release-keys $tap-time $hold-time s rctl $right-hand-keys)
 
-  ;; Unikey (Telex): khi kanata gửi nhấn/nhả w tách rời (phím gõ thẳng, không tap-hold), Unikey nuốt lần nhấn,
-  ;; trạng thái lệch nên "ww" không hoàn tác về "w" mà ra "ư" mãi. macro gửi nhấn + nhả liền một lượt,
-  ;; giống tap-hold ở layer base. Dùng ở mode 1 (qwerty) và mode 3 (dvorak: w nằm ở phím ,).
-  tw (macro w)
+  ;; Unikey (Telex): khi kanata gửi nhấn/nhả tách rời (phím gõ thẳng, không tap-hold), Unikey nuốt lần nhấn,
+  ;; trạng thái lệch nên không hoàn tác được: "ww" ra "ư" mãi, "rr" không bỏ được dấu hỏi.
+  ;; macro gửi nhấn + nhả liền một lượt, giống tap-hold ở layer base. Dùng ở mode 1 (qwerty) và mode 3 (dvorak).
+  ;; Đổi: macro không tự lặp khi giữ, nên KHÔNG dùng cho phím cần giữ để lặp (j, k… trong vim).
+  tw (macro w)   ;; dvorak: w nằm ở phím ,
+  tr (macro r)   ;; dvorak: r nằm ở phím o
 
   ;; phím có shift
   { S-[
@@ -117,7 +122,7 @@
 ;; Layer đầu tiên = layer khi kanata khởi động
 (deflayer dvorak
   @grl 1    2    3    4    5    6    7    8    9    0    [    ]    bspc
-  tab  @dq  @dw  @de  @dr  y    f    g    c    r    l    /    =    lrld
+  tab  @dq  @dw  @de  @dr  y    f    g    c    @tr  l    /    =    lrld
   @cap @da  @ds  @dd  @df  i    d    h    t    @dl  @d;  -    ret
   lsft ;    q    j    k    x    b    m    @tw  v    z    rsft
   lctl lmet @tla           spc            @thb rmet rctl
@@ -133,7 +138,7 @@
 
 (deflayer qwerty
   @grl 1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    @tw  e    r    t    y    u    i    o    p    [    ]    \
+  tab  q    @tw  e    @tr  t    y    u    i    o    p    [    ]    \
   caps a    s    d    f    g    h    j    k    l    ;    '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
   lctl lmet lalt           spc            ralt rmet rctl
