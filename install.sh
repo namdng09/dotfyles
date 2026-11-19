@@ -28,6 +28,7 @@ target() {
     alacritty) echo "$HOME/.config/alacritty" ;;
     kanata)    echo "$HOME/.config/kanata" ;;
     zmk)       echo "$HOME/.config/zmk" ;;
+    herdr)     echo "$HOME/.config/herdr" ;;
     claude)    echo "$HOME/.claude" ;;
   esac
 }
@@ -168,6 +169,7 @@ ITEMS=(
   "claude|0|Claude Code status line (cần jq)"
   "kanata|0|Kanata (bàn phím home-row mods) — chỉ link config (WSL: chép thêm windows.kbd sang Windows)"
   "zmk|0|ZMK keymap (Corne) — chỉ link config"
+  "herdr|0|herdr (config + Ctrl+h/j/k/l chuyển pane, cần jq; herdr tự cài theo herdr.dev)"
 )
 # Trên WSL font/terminal phải cài phía Windows
 if [[ $WSL == 1 ]]; then
@@ -188,7 +190,7 @@ deps() {
     brew:font)       echo "cask:font-jetbrains-mono-nerd-font cask:font-fira-code-nerd-font cask:font-caskaydia-mono-nerd-font cask:font-symbols-only-nerd-font" ;;
     brew:kitty)      echo "cask:kitty" ;;
     brew:alacritty)  echo "cask:alacritty" ;;
-    brew:claude)     echo "jq" ;;
+    brew:claude|brew:herdr) echo "jq" ;;
     pacman:nvim)     echo "neovim ripgrep fd lazygit nodejs npm" ;;
     pacman:tmux)     echo "tmux" ;;
     pacman:fish|pacman:chsh) echo "fish zoxide eza" ;;
@@ -196,14 +198,14 @@ deps() {
     pacman:font)     echo "ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-cascadia-mono-nerd ttf-nerd-fonts-symbols" ;;
     pacman:kitty)    echo "kitty" ;;
     pacman:alacritty) echo "alacritty" ;;
-    pacman:claude)   echo "jq" ;;
+    pacman:claude|pacman:herdr) echo "jq" ;;
     apt:nvim)        echo "neovim ripgrep fd-find nodejs npm" ;;
     apt:tmux)        echo "tmux" ;;
     apt:fish|apt:chsh) echo "fish zoxide eza" ;;
     apt:starship)    echo "starship" ;;
     apt:kitty)       echo "kitty" ;;
     apt:alacritty)   echo "alacritty" ;;
-    apt:claude)      echo "jq" ;;
+    apt:claude|apt:herdr) echo "jq" ;;
   esac
 }
 
@@ -308,6 +310,7 @@ for x in "${CHOSEN[@]}"; do
     *) say "stow $x → $(target "$x")"; stow_pkg "$x" ;;
   esac
 done
+has herdr && ! command -v herdr >/dev/null && warn "Chưa có herdr: cài theo https://herdr.dev (config đã link sẵn)"
 has kanata && [[ $OS == Darwin ]] && warn "kanata trên macOS cần driver Karabiner-DriverKit-VirtualHIDDevice (xem kanata/config.adoc)"
 
 # ───────────────────────── shell mặc định ─────────────────────────

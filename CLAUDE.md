@@ -14,6 +14,7 @@ Mỗi thư mục cấp 1 là một **package stow phẳng**: file nằm thẳng 
 | `fish` | `~/.config/fish` | chỉ `config.fish`; **không** đưa `fish_variables` vào repo (fish tự ghi, khác nhau giữa các máy) |
 | `starship` | `~/.config` | `starship.toml` là **symlink** tới theme đang dùng |
 | `kitty`, `alacritty`, `kanata`, `zmk` | `~/.config/<tên>` | kanata trên WSL: `windows.kbd` được **chép** (không link) sang `%APPDATA%\kanata\kanata.kbd` cho kanata phía Windows, rồi kiểm tra bằng `kanata.exe --check` (tìm exe tự động hoặc qua `KANATA_EXE`) |
+| `herdr` | `~/.config/herdr` | chỉ `config.toml` + `nav.sh` (Ctrl+h/j/k/l chuyển pane, liền mạch với split nvim qua `nvim/lua/config/navigate.lua`, cần jq); socket, log, `session.json` của herdr để nguyên ở đích, không đưa vào repo. Giữ `onboarding = false` để herdr không tự ghi đè symlink |
 | `claude` | `~/.claude` | chỉ `statusline.sh`; `settings.json` **không** stow vì Claude Code tự ghi lại, `install.sh` chèn `statusLine` bằng jq |
 
 Starship: theme đang dùng = file mà `starship/starship.toml` trỏ tới (hiện là `catppuccin-powerline.toml`;

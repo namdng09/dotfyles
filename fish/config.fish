@@ -7,6 +7,8 @@ for brew in /opt/homebrew/bin/brew /usr/local/bin/brew
 end
 fish_add_path ~/.local/bin ~/.opencode/bin
 set -g fish_greeting
+# Editor mặc định. herdr (prefix+e) chạy "${EDITOR:-vi}", mà Arch không có vi → mở rồi tắt ngay.
+type -q nvim; and set -gx EDITOR nvim; and set -gx VISUAL nvim
 
 # macOS qua SSH: client không gửi LANG → locale "C", tmux/nvim hiện sai ký tự Unicode
 if test (uname) = Darwin; and not string match -qi '*utf*' -- "$LC_ALL$LC_CTYPE$LANG"
