@@ -61,7 +61,9 @@
   tla (multi (layer-toggle lthumb) (on-release release-vkey valt))
   ;; lthumb + tab = Alt+Tab: lần đầu giữ Alt ảo, các lần sau chỉ bấm tab → chuyển tiếp cửa sổ;
   ;; thả Alt trái mới chọn cửa sổ. Thêm Shift = lùi lại.
-  atb (multi (on-press press-vkey valt) tab)
+  ;; Phím ảo được xử lý ở tick sau → tab gửi ngay sẽ tới trước Alt (lần đầu chỉ ra Tab).
+  ;; Trễ tab 10ms để Alt đã xuống trước.
+  atb (multi (on-press press-vkey valt) (macro 10 tab))
 
   ;; đổi bộ phím chính (trong layer `layers`: 1, 2, 3)
   qwr (layer-switch qwerty)
