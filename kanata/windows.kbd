@@ -42,6 +42,11 @@
   )
 )
 
+;; phím ảo: Alt được giữ giữa nhiều lần bấm (dùng cho Alt+Tab ở layer lthumb)
+(defvirtualkeys
+  valt lalt
+)
+
 (defalias
   ;; giữ để bật layer tạm
   msc (layer-toggle misc)
@@ -51,7 +56,12 @@
   lay (layer-toggle layers)
   ctx (layer-toggle desktop)
   thb (layer-toggle thumb)   ;; giữ Alt phải (mode 2, 3)
-  tla (layer-toggle lthumb)  ;; giữ Alt trái (mode 2, 3). Alt vẫn có khi giữ r (home-row mod)
+  ;; giữ Alt trái (mode 2, 3). Alt vẫn có khi giữ r (home-row mod).
+  ;; Thả Alt trái thì nhả luôn Alt ảo của @atb (Alt+Tab bên dưới).
+  tla (multi (layer-toggle lthumb) (on-release release-vkey valt))
+  ;; lthumb + tab = Alt+Tab: lần đầu giữ Alt ảo, các lần sau chỉ bấm tab → chuyển tiếp cửa sổ;
+  ;; thả Alt trái mới chọn cửa sổ. Thêm Shift = lùi lại.
+  atb (multi (on-press press-vkey valt) tab)
 
   ;; đổi bộ phím chính (trong layer `layers`: 1, 2, 3)
   qwr (layer-switch qwerty)
@@ -212,12 +222,13 @@
 ;; giữ Alt trái (chỉ mode 2 và 3; mode 1 giữ nguyên Alt trái).
 ;; Alt thật vẫn còn: giữ r (dvorak: p) là lalt, ví dụ giữ r + tab = Alt+Tab.
 ;; Thay layer audios cũ (giữ x). Phím nằm bên tay trái, chữ bên trái dấu = là phím qwerty thật:
+;;   tab     = Alt+Tab (giữ Alt trái, bấm tab nhiều lần để chọn cửa sổ, thả Alt trái để chuyển)
 ;;   q w e r = home, pgdn, pgup, end
 ;;   s d f   = tắt tiếng, giảm, tăng âm lượng
 ;;   x c v   = phát/tạm dừng, bài trước, bài sau
 (deflayer lthumb
   _      _      _      _      _      _      _      _      _      _      _      _      _      _
-  _      home   pgdn   pgup   end    _      _      _      _      _      _      _      _      _
+  @atb   home   pgdn   pgup   end    _      _      _      _      _      _      _      _      _
   _      _      mute   voldwn volu   _      _      _      _      _      _      _      _
   _      _      pp     prev   next   _      _      _      _      _      _      _
   _      _      _                    _                    _      _      _
